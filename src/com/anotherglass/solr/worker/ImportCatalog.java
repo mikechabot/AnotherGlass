@@ -25,7 +25,7 @@ public class ImportCatalog {
 		
 		Configuration config = Configuration.getInstance();
 		try {
-			config.initialize("web/WEB-INF/etc");
+			config.initialize();
 		} 
 		catch (ConfigurationException e) {
 			log.error("could not load configuration for some reason", e);

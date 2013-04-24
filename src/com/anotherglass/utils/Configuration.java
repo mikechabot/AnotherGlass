@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Properties;
@@ -12,13 +13,11 @@ import java.util.TimeZone;
 import org.apache.log4j.Logger;
 
 public class Configuration {
-    public String PROPERTY_FILE_NAME = "glass.properties";
+    public String PROPERTY_FILE_NAME = "/glass.properties";
     
     private static final Logger log = Logger.getLogger(Configuration.class);
 
     private static Configuration config;
-    private String path;
-    private File base;
     private boolean initialized = false;
 
     private final SimpleDateFormat usStd;
@@ -26,15 +25,10 @@ public class Configuration {
 
     private volatile Properties properties = new Properties();
 
-    // required configurations
-    private String solrHome; 
-    private String solrUrl;
-    
     public static Configuration getInstance() {
         if (config == null) {
             config = new Configuration();
         }
-
         return config;
     }
     
@@ -52,26 +46,15 @@ public class Configuration {
         PROPERTY_FILE_NAME = name;
     }
     
-    public void initialize(String path) throws ConfigurationException {
+    public void initialize() throws ConfigurationException {
     	if (initialized) return;
     	
-    	log.debug("PATH=" + path);
-    	
-    	File temp = new File(path);
-    	log.info(temp.getAbsoluteFile());
-    	
-        this.path = path;
-        if (path != null && !path.equals("")) {
-            base = new File(path, PROPERTY_FILE_NAME);
-        }
-        else {
-            base = new File(PROPERTY_FILE_NAME);
-        }
+    	String file = PROPERTY_FILE_NAME;
 
         try {
-	        FileInputStream propStream = new FileInputStream(base);
-	        properties.load(propStream);
-	        propStream.close();
+        	 InputStream propsInputStream = Configuration.class.getResourceAsStream(file);
+	        properties.load(propsInputStream);
+	        propsInputStream.close();
         }
         catch (FileNotFoundException e) {
         	throw new ConfigurationException("File not found", e);
@@ -79,10 +62,6 @@ public class Configuration {
         catch (IOException e) {
         	throw new ConfigurationException("Error reading file", e);
         }
-        
-        // required configurations
-        solrHome = config.getRequiredString("solrHome");
-        solrUrl = config.getRequiredString("solrUrl");
         
         initialized = true;
     }
@@ -297,15 +276,7 @@ public class Configuration {
         }
         return items;
     }
-    
-    public String getSolrHome() {
-    	return solrHome;
-    }
-    
-    public String getSolrUrl() {
-    	return solrUrl;
-    }    
-    
+     
     public class ConfigurationException extends Exception {
 		private static final long serialVersionUID = 1L; 
 		

@@ -2,6 +2,9 @@ package com.anotherglass.solr.worker;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +16,13 @@ import com.google.gson.Gson;
 import com.anotherglass.http.HttpException;
 import com.anotherglass.http.HttpHelper;
 import com.anotherglass.utils.Configuration;
+import com.anotherglass.utils.PostgresConnection;
 import com.anotherglass.utils.Configuration.ConfigurationException;
 import com.anotherglass.wine.Products;
 import com.anotherglass.wine.Status;
 import com.anotherglass.wine.Wine;
+
+import org.postgresql.*;
 
 public class FetchCatalog {	
 	
@@ -28,13 +34,16 @@ public class FetchCatalog {
 	
 	public void fetch() {
 		
+		
 		Configuration config = Configuration.getInstance();
 		try {
-			config.initialize("web/WEB-INF/etc");
+			config.initialize();
 		} 
 		catch (ConfigurationException e) {
 			log.error("could not load configuration for some reason", e);
 		}
+		
+		Connection connection = PostgresConnection.getPostgresConnection();			
 		
 		String wineUrl = config.getRequiredString("wineUrl");
 		String apiKey = config.getRequiredString("apiKey");

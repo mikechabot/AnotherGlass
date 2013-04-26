@@ -1,4 +1,4 @@
-package com.anotherglass.utils;
+package com.anotherglass.misc;
 
 import java.io.File;
 import java.io.FileInputStream;

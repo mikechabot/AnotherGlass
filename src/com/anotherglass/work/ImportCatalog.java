@@ -1,4 +1,4 @@
-package com.anotherglass.solr.worker;
+package com.anotherglass.work;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -8,8 +8,8 @@ import org.apache.log4j.Logger;
 
 import com.anotherglass.http.HttpException;
 import com.anotherglass.http.HttpHelper;
-import com.anotherglass.utils.Configuration;
-import com.anotherglass.utils.Configuration.ConfigurationException;
+import com.anotherglass.misc.Configuration;
+import com.anotherglass.misc.Configuration.ConfigurationException;
 
 import com.sun.org.apache.regexp.internal.RE;
 

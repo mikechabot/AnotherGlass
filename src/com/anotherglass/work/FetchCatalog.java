@@ -1,4 +1,4 @@
-package com.anotherglass.solr.worker;
+package com.anotherglass.work;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +15,9 @@ import com.google.gson.Gson;
 
 import com.anotherglass.http.HttpException;
 import com.anotherglass.http.HttpHelper;
-import com.anotherglass.utils.Configuration;
-import com.anotherglass.utils.PostgresConnection;
-import com.anotherglass.utils.Configuration.ConfigurationException;
+import com.anotherglass.misc.Configuration;
+import com.anotherglass.misc.Configuration.ConfigurationException;
+import com.anotherglass.postgres.PostgresConnection;
 import com.anotherglass.wine.Products;
 import com.anotherglass.wine.Status;
 import com.anotherglass.wine.Wine;

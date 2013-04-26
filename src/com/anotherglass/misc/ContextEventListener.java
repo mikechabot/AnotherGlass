@@ -1,12 +1,12 @@
-package com.anotherglass.utils;
+package com.anotherglass.misc;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 
-import com.anotherglass.utils.Configuration;
-import com.anotherglass.utils.Version;
+import com.anotherglass.misc.Configuration;
+import com.anotherglass.misc.Version;
 
 public class ContextEventListener implements ServletContextListener {
 	

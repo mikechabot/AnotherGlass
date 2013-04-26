@@ -1,4 +1,4 @@
-package com.anotherglass.utils;
+package com.anotherglass.postgres;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -8,7 +8,8 @@ import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
-import com.anotherglass.utils.Configuration.ConfigurationException;
+import com.anotherglass.misc.Configuration;
+import com.anotherglass.misc.Configuration.ConfigurationException;
 
 
 public class PostgresConnection {
@@ -30,36 +31,23 @@ public class PostgresConnection {
 		String pass = config.getRequiredString("postgresDbPass");		
 		
 		Connection connection = null;
-	    Statement st = null;
-	    ResultSet rs = null;
+	    Statement statement = null;
+	    ResultSet resultSet = null;
 		
 		try {
 			Class.forName("org.postgresql.Driver");
 			connection = DriverManager.getConnection(url, user, pass);
-            st = connection.createStatement();
-            rs = st.executeQuery("SELECT VERSION()");
-
-            if (rs.next()) {
-                System.out.println("Found Version: " + rs.getString(1));
-            }
-			
-			
-			if(connection!=null) {
-				log.info("Connection established.");
-			}
+			statement = connection.createStatement();
+			resultSet = statement.executeQuery("SELECT VERSION()");
+            if (resultSet.next()) {
+                log.info("Found Version: " + resultSet.getString(1));
+            }						
 		} catch (ClassNotFoundException e) {
 			log.error("Unable to locate Postgres driver.", e);
 		} catch (SQLException e) {
 			log.error("Unable to connect to Postgres server.", e);
 		}
 		return connection;
-	}
-
-	public static void main (String[] args) {
-		Connection connection = PostgresConnection.getPostgresConnection();
-		if(connection!=null) {
-			log.info("let's do stuff");
-		}
 	}
 	
 }

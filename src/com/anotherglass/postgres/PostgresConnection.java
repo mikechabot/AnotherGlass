@@ -8,15 +8,15 @@ import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
-import com.anotherglass.misc.Configuration;
-import com.anotherglass.misc.Configuration.ConfigurationException;
+import com.anotherglass.config.Configuration;
+import com.anotherglass.config.Configuration.ConfigurationException;
 
 
 public class PostgresConnection {
 	
 	private static Logger log = Logger.getLogger(PostgresConnection.class);
 	
-	public static Connection getPostgresConnection() {
+	public Connection getPostgresConnection() {
 		
 		Configuration config = Configuration.getInstance();
 		try {
@@ -38,14 +38,14 @@ public class PostgresConnection {
 			Class.forName("org.postgresql.Driver");
 			connection = DriverManager.getConnection(url, user, pass);
 			statement = connection.createStatement();
-			resultSet = statement.executeQuery("SELECT VERSION()");
+			resultSet = statement.executeQuery("select version()");
             if (resultSet.next()) {
                 log.info("Found Version: " + resultSet.getString(1));
             }						
 		} catch (ClassNotFoundException e) {
-			log.error("Unable to locate Postgres driver.", e);
+			log.error("Unable to locate Postgres driver", e);
 		} catch (SQLException e) {
-			log.error("Unable to connect to Postgres server.", e);
+			log.error("Unable to connect to Postgres server", e);
 		}
 		return connection;
 	}

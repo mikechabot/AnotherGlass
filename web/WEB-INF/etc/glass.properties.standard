@@ -1,4 +1,6 @@
+postgresDbUrl=
+postgresDbUser=
+postgresDbPass=
 wineUrl=
-solrUrl=
-solrHome=
 apiKey=
+solrHome=

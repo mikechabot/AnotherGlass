@@ -54,9 +54,10 @@
        If a "./lib" directory exists in your instanceDir, all files
        found in it are included as if you had used the following
        syntax...
+-->
        
-              <lib dir="./lib" />
-    -->
+        <lib dir="../../lib" />
+    
 
   <!-- A 'dir' option by itself adds any files found in the directory 
        to the classpath, this is useful for including all jars in a
@@ -69,7 +70,6 @@
        The examples below can be used to load some solr-contribs along 
        with their external dependencies.
     -->
-  <lib dir="D:/Development/apache-tomcat-7.0.34/lib/" regex="solr-.*\.jar" /> 
     
   <lib dir="../../../contrib/extraction/lib" regex=".*\.jar" />
   <lib dir="../../../dist/" regex="solr-cell-\d.*\.jar" />

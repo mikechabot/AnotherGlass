@@ -1,5 +1,7 @@
 package com.anotherglass.config;
 
+import java.sql.ResultSet;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -8,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import com.anotherglass.config.Configuration;
 import com.anotherglass.config.Version;
+import com.anotherglass.postgres.Query;
 
 public class ContextEventListener implements ServletContextListener {
 	
@@ -25,11 +28,19 @@ public class ContextEventListener implements ServletContextListener {
             Configuration conf = Configuration.getInstance();
             conf.initialize(path);
             
+            log.info("Loaded glass.properties "); 
+            
             String solrHome = conf.getSolrHome();
             System.setProperty("solr.solr.home", solrHome);            
-            log.info("SOLR Home has been set to: " + solrHome);
+            log.info("Solr home set to: " + solrHome);
             
-            log.info("Loaded glass.properties ");                               
+            String sql = "select version()";
+            Query query = new Query();           
+            ResultSet resultSet =  query.execute(sql);
+            if (resultSet.next()) {
+                log.info("Database reached: " + resultSet.getString(1));
+            }
+            query.close();
             
         }
         catch (Exception e) {

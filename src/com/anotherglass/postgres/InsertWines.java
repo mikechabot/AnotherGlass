@@ -14,10 +14,9 @@ public class InsertWines {
 	
 	private static Logger log = Logger.getLogger(InsertWines.class);
 	
-	public void insert(List<Wine> wines) {
+	public static void insert(List<Wine> wines) {
 		
-		PostgresConnection postgres= new PostgresConnection();
-		Connection connection = postgres.getPostgresConnection();
+		Connection connection = new PostgresConnection().get();
 	    
 	    PreparedStatement insert = null;
 	    String sql =  null;
@@ -36,7 +35,7 @@ public class InsertWines {
 				String priceMin = DbUtil.out(temp.getPriceMin());
 				String priceRetail = DbUtil.out(temp.getPriceRetail());
 				
-				sql = "insert into wines (wine_id, name, description, retail, type, url, vintage, priceMax, priceMin, priceRetail) values (" + id + "," + name + "," + description + "," 
+				sql = "insert into wines (wine_id, name, description, retail, type, url, vintage, price_max, price_min, price_retail) values (" + id + "," + name + "," + description + "," 
                         + retail + "," + type + "," + url + "," 
                         + vintage + "," + priceMax + "," + priceMin + ","
                         + priceRetail + ");";
@@ -48,7 +47,7 @@ public class InsertWines {
 			insert.close();
             connection.close();            
 		} catch (SQLException e) {
-			log.error("Failure inserting to 'wines' table", e);
+			log.error("Failure inserting into 'wines' table", e);
 		}
 		log.info("Write complete");
 	}

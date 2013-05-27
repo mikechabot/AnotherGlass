@@ -1,0 +1,18 @@
+<dataConfig>
+ <dataSource name="postgres" driver="org.postgresql.Driver" url="jdbc:postgresql://localhost:8088/postgres" user="postgres" password="Hax0r!"/>
+    <document name="wines">
+        <entity name="wine" query="select * from wines">
+            <field column="ag_id" name="ag_id" />
+            <field column="wine_id" name="wine_id" /> 
+			<field column="name" name="name" />
+			<field column="description" name="description" />
+			<field column="retail" name="retail" />
+			<field column="type" name="type" />
+			<field column="url" name="url" />
+			<field column="vintage" name="vintage" />
+			<field column="price_max" name="price_max" />
+			<field column="price_min" name="price_min" />
+			<field column="price_retail" name="price_retail" />
+        </entity>
+    </document> 
+</dataConfig> 

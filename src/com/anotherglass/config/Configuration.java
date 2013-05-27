@@ -24,6 +24,7 @@ public class Configuration {
     
     // required configurations
     private String solrHome; 
+    private String solrUrl;
 
     private final SimpleDateFormat usStd;
     private final SimpleDateFormat usStdTime;
@@ -64,6 +65,10 @@ public class Configuration {
     	return solrHome;
     }
     
+    public String getSolrUrl() {
+    	return solrUrl;
+    }
+    
     public void initialize(String path) throws ConfigurationException {
     	if (initialized) return;
     	
@@ -89,6 +94,7 @@ public class Configuration {
         
         // required configurations
         solrHome = config.getRequiredString("solrHome");
+        solrUrl = config.getRequiredString("solrUrl");
                 
         initialized = true;
     }

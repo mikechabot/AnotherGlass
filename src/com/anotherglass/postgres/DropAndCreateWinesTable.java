@@ -8,14 +8,13 @@ import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
-public class CreateWinesTable {
+public class DropAndCreateWinesTable {
 	
-	private static Logger log = Logger.getLogger(CreateWinesTable.class);
+	private static Logger log = Logger.getLogger(DropAndCreateWinesTable.class);
 	
-	public void create() {
+	public static void create() {
 		
-		PostgresConnection postgres= new PostgresConnection();
-		Connection connection = postgres.getPostgresConnection();
+		Connection connection = new PostgresConnection().get();
 	    ResultSet resultSet = null;
 	    
 	    PreparedStatement drop = null;
@@ -23,7 +22,7 @@ public class CreateWinesTable {
 	    Statement select = null;
 	    
 	    String dropSql = "drop table if exists wines";  
-	    String createSql = "create table wines (ag_id serial unique, wine_id varchar(128), name varchar(256), description varchar(10000), retail varchar(128), type varchar(128), url varchar(512), vintage varchar(256), priceMax varchar(10), priceMin varchar(10), priceRetail varchar(10))";
+	    String createSql = "create table wines (ag_id serial unique, wine_id varchar(128), name varchar(256), description varchar(10000), retail varchar(128), type varchar(128), url varchar(512), vintage varchar(256), price_max varchar(10), price_min varchar(10), price_retail varchar(10))";
 	    String selectSql = "select count(*) from wines";
 		
 		try {			
@@ -37,7 +36,7 @@ public class CreateWinesTable {
 			resultSet = select.executeQuery(selectSql);			
 
             if (resultSet.next()) {
-               	log.info("Table 'wines' created successfully!");
+               	log.info("Table 'wines' created");
             }
             
             drop.close();

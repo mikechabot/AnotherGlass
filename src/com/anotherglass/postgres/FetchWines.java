@@ -19,11 +19,7 @@ public class FetchWines {
 	
 	private static Logger log = Logger.getLogger(FetchWines.class);	
 	
-	public static void main(String[] args) {		
-		new FetchWines().fetch();
-	}
-	
-	public List<Wine> fetch() {
+	public static List<Wine> fetch() {
 		
 		Configuration config = Configuration.getInstance();
 		try {
@@ -35,6 +31,8 @@ public class FetchWines {
 		
 		String wineUrl = config.getRequiredString("wineUrl");
 		String apiKey = config.getRequiredString("apiKey");
+		String fetchSize = config.getRequiredString("fetchSize");
+		String fetchOffset = config.getOptionalString("fetchOffset", "0");
 		
 		HttpHelper httpHelper = new HttpHelper();
 		
@@ -43,13 +41,11 @@ public class FetchWines {
 		Response response;
 				
 		String json = null;
-		int size = 400;
-		long offset = 0;		
 
-		log.info("Starting fetch");
+		log.info("Starting fetch from " + wineUrl);
 		do {
 			try {
-				String url = wineUrl + "catalog?size=" + size + "&apiKey=" + apiKey + "&offset=" + offset;
+				String url = wineUrl + "catalog?size=" + fetchSize + "&apiKey=" + apiKey + "&offset=" + fetchOffset;
 				json = httpHelper.get(url);
 			} catch (HttpException e) {
 				log.error("Error accessing server for some reason", e);				
@@ -57,7 +53,7 @@ public class FetchWines {
 			response = new Gson().fromJson(json, Response.class);			
 			temp = response.getProducts().getList();
 			wines.addAll(temp);
-			offset+=size;
+			fetchOffset+=fetchSize;
 		} while (!temp.isEmpty());
 		
 		log.info("Completed fetch");

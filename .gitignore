@@ -2,10 +2,4 @@
 /.project
 /.settings
 /build
-/build.xml
-/build-all.bat
-/build-war.bat
 /web/WEB-INF/etc/glass.properties
-/src/glass.properties
-/build-heroku.bat
-/heroku-logs.bat

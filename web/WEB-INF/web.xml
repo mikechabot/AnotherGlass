@@ -6,7 +6,7 @@
          metadata-complete="true">
          
   <listener>
-    <listener-class>com.anotherglass.vino.config.ContextEventListener</listener-class>
+    <listener-class>vino.config.ContextEventListener</listener-class>
   </listener>
  
   <welcome-file-list>
@@ -16,7 +16,7 @@
   
   <servlet>
     <servlet-name>RantController</servlet-name>
-    <servlet-class>com.anotherglass.vino.controller.AdminController</servlet-class>
+    <servlet-class>vino.controller.AdminController</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>RantController</servlet-name>

@@ -1,11 +1,23 @@
-body.admin {
-   margin: 0px;
-   padding-top: 15px;
-   font-family: Open Sans, Arial, sans serif;
-   font-size: 16px;
+/* Move down content because we have a fixed navbar that is 50px tall */
+body {
+	font-family: Open Sans, Arial, sans serif;
+	font-size: 12px;
+}
+
+h1 {
+	font-family: Open Sans, Arial, sans serif;
 }
 
 .table-nonfluid {
-   width: auto;
+	width: auto;
 }
 
+.border-bottom {
+	border-bottom: 1px solid #C0C0C0;
+	margin-bottom: 10px;
+}
+
+/* Navigation */
+.navbar {
+	margin-top: 15px;
+}

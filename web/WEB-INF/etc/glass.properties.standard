@@ -1,7 +1,18 @@
-postgresDbUrl=
+# [Required] Postgres URL
+postgresDbUrl=jdbc:postgresql://[host]:[port]/[db_name]
+
+# [Required] Postgres credentials
 postgresDbUser=
 postgresDbPass=
-wineUrl=
+
+# [Required] Wine.com API URL
+wineUrl=http://services.wine.com/api/beta2/service.svc/json/
+
+# [Required] Wine.com API key
 apiKey=
-solrHome=
-solrUrl=
+
+# [Optional] Number of wines to fetch during each service call (Default: 400)
+#fetchSize=
+
+# [Optional] The record to start from when making service calls (Default: 0)
+#fetchOffset=

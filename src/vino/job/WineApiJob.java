@@ -1,14 +1,15 @@
 package vino.job;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import vino.job.Job;
 import vino.model.Wine;
-import vino.service.WineApiService;
-import vino.service.WineDatabaseService;
+import vino.service.ApiService;
+import vino.service.DatabaseService;
 import vino.utils.DateUtils;
 
 
@@ -18,7 +19,8 @@ public class WineApiJob extends Job implements Runnable  {
 	
 	private static Thread thread;
 	private static WineApiJob fetchJob;
-	private static String lastRunTime;
+	private static long runDate;
+	private static long stopDate;
 	private static boolean running;
 	
 	
@@ -47,16 +49,17 @@ public class WineApiJob extends Job implements Runnable  {
 	public void run() {
 		running = true;
 		log.info("Starting thread, " + getJobName());
-		lastRunTime = DateUtils.getFormattedNow();
+		runDate = new Date().getTime();
         while (running) {
-			WineDatabaseService.dropAndCreateWinesTable();				
-			List<Wine> wines = new ArrayList<Wine>(WineApiService.fetch());
+			DatabaseService.dropAndCreateWinesTable();				
+			List<Wine> wines = new ArrayList<Wine>(ApiService.fetch());
 			if(!wines.isEmpty()) {
-				WineDatabaseService.insertWines(wines);	
+				DatabaseService.insertWines(wines);	
 			} else {
 				log.warn("No wines were inserted; empty list returned from FetchWinesFromApiService.fetch()");
 			}
 			stop();
+			stopDate = new Date().getTime();
         }     
 	}
 	
@@ -81,8 +84,16 @@ public class WineApiJob extends Job implements Runnable  {
 	}
 
 	@Override
-	public String getLastRunTime() {
-		return lastRunTime;
-	}	
+	public String getLastRunDate() {
+		return runDate == 0 ? null : DateUtils.getFormattedDateFromLong(runDate);
+	}
+
+	@Override
+	public String getLastRunDuration() {
+		if(running) {
+		  return DateUtils.getFormattedSpecial((new Date().getTime()-runDate));
+		}
+		return DateUtils.getFormattedSpecial((stopDate-runDate));
+	}
 
 }

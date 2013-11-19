@@ -15,7 +15,7 @@ public class Database {
 	
 	private static Logger log = Logger.getLogger(Database.class);
 	
-	public Connection get() {
+	public Connection getConnection() {
 		
 		Configuration config = Configuration.getInstance();
 		try {

@@ -10,6 +10,8 @@ public abstract class Job {
 	
 	public abstract String getJobDescription();
 	
-	public abstract String getLastRunTime();
+	public abstract String getLastRunDate();
+	
+	public abstract String getLastRunDuration();
 	
 }

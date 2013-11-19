@@ -11,7 +11,7 @@ public class Query {
 	
 	private static Logger log = Logger.getLogger(Query.class);
 	
-	Connection connection = new Database().get();	 
+	Connection connection = new Database().getConnection();	 
 	Statement select = null;
 	
 	public ResultSet execute(String sql) {		

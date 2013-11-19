@@ -16,9 +16,9 @@ import vino.model.Wine;
 import com.google.gson.Gson;
 
 
-public class WineApiService {	
+public class ApiService {	
 	
-	private static Logger log = Logger.getLogger(WineApiService.class);	
+	private static Logger log = Logger.getLogger(ApiService.class);	
 	
 	public static List<Wine> fetch() {
 		
@@ -54,7 +54,7 @@ public class WineApiService {
 			response = new Gson().fromJson(json, Response.class);			
 			temp = response.getProducts().getList();
 			wines.addAll(temp);
-			log.info("Fetched " + temp.size() + " wines");
+			log.info("Fetched " + temp.size() + " wines for a total of " + wines.size());
 			fetchOffset+=fetchSize;
 		} while (!temp.isEmpty());
 		

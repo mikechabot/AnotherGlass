@@ -1,8 +1,8 @@
-package vino.database;
+package vino.utils;
 
-public class Utils {
+public class DbUtils {
 
-	public static String sanitizeSingleQuote(Object object) {
+	public static String scrub(Object object) {
 		if(object == null || object.equals("")) {
 			return null;
 		}

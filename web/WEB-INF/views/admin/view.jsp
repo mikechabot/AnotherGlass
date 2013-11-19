@@ -44,6 +44,7 @@
 		   			<th>Description</th>
 		   			<th>Status</th>
 		   			<th>Last Run Time</th>
+		   			<th>Last Run Duration</th>
 		   			<th>Action</th>
 	   			</tr>
 	   			<c:forEach var="entry" items="${jobs}">
@@ -54,11 +55,13 @@
 			 				<td><c:out value="${entry.value.getJobDescription()}"/></td>
 	            			<td class="text-success">Running</td>
 			    			<c:choose>
-			        			<c:when test="${empty entry.value.lastRunTime}">
+			        			<c:when test="${empty entry.value.lastRunDate}">
+			            			<td>N/A</td>
 			            			<td>N/A</td>
 			        			</c:when>
 			        			<c:otherwise>
-									<td><c:out value="${entry.value.lastRunTime}"/></td>
+									<td><c:out value="${entry.value.lastRunDate}"/></td>
+									<td><c:out value="${entry.value.lastRunDuration}"/></td>
 			        			</c:otherwise>
 			    			</c:choose>
 	            			<td><button type="submit" class="btn btn-success btn-xs" disabled="disabled">Running</button></td>
@@ -70,11 +73,13 @@
 			 				<td><c:out value="${entry.value.getJobDescription()}"/></td>
 	            			<td>Idle</td>
 			    			<c:choose>
-			        			<c:when test="${empty entry.value.lastRunTime}">
+			        			<c:when test="${empty entry.value.lastRunDate}">
+			            			<td>N/A</td>
 			            			<td>N/A</td>
 			        			</c:when>
 			        			<c:otherwise>
-									<td><c:out value="${entry.value.lastRunTime}"/></td>
+									<td><c:out value="${entry.value.lastRunDate}"/></td>
+									<td><c:out value="${entry.value.lastRunDuration}"/></td>
 			        			</c:otherwise>
 			    			</c:choose>
 	            			<td><form method="post" action="${entry.value.getJobServletUrl()}"><button type="submit" class="btn btn-primary btn-xs">Run Job</button></form></td>

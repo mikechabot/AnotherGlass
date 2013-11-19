@@ -3,8 +3,6 @@ package vino.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import vino.Controller;
 import vino.JobManager;
 import vino.job.WineApiJob;
@@ -34,19 +32,17 @@ public class AdminController extends Controller {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 			request.setAttribute("jobs", manager.getJobs());
 			request.setAttribute("running", manager.getRunningJobCount());
-			return basePath() + "/admin.jsp";
+			return basePath() + "admin/view.jsp";
 		}		
 	}
 	
 	public class RunFetchWineJob implements Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-			
 			// Start a fetch job if it's not already running
 			WineApiJob fetchJob = WineApiJob.getInstance();
 			if (!fetchJob.isRunning()) {
 				fetchJob.start();				
 			}
-
 			response.sendRedirect("/admin");
 			return null;
 		}		

@@ -3,24 +3,28 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
          version="2.5"
-         metadata-complete="true">
-         
+         metadata-complete="true">         
   <listener>
     <listener-class>vino.config.ContextEventListener</listener-class>
-  </listener>
- 
+  </listener> 
   <welcome-file-list>
     <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>
-  </welcome-file-list>
-  
+  </welcome-file-list>  
   <servlet>
-    <servlet-name>RantController</servlet-name>
-    <servlet-class>vino.controller.AdminController</servlet-class>
+    <servlet-name>SearchController</servlet-name>
+    <servlet-class>vino.controller.SearchController</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>AdminController</servlet-name>
+    <servlet-class>vino.controller.AdminController</servlet-class>
+  </servlet>  
   <servlet-mapping>
-    <servlet-name>RantController</servlet-name>
+    <servlet-name>SearchController</servlet-name>
+    <url-pattern>/search/*</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>AdminController</servlet-name>
     <url-pattern>/admin/*</url-pattern>
   </servlet-mapping>
-
 </web-app>

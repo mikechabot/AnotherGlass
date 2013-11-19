@@ -14,8 +14,6 @@
     <property name="DIST.BASE"       value="AnotherGlass"/>
     <property name="DIST.PREFIX"     value="AnotherGlass"/>
     
-    <property name="WEBAPPS"     value="D:/Development/apache-tomcat-7.0.34/webapps"/>
-    
     <property name="BUILD.BRANCH"    value="DEV"/>
     <property name="BUILD.STAMP"     value="${BUILD.DSTAMP}_${BUILD.TSTAMP}"/>
     <property name="BUILD.TAG"       value="${BUILD.BRANCH}-${BUILD.STAMP}"/>
@@ -70,7 +68,6 @@
             <classes dir="${DIST.CLASSES}" includes="*.properties *.xml" excludes="version.properties"/>
         </war>
         <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${DIST}/ROOT.war"/>
-        <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${DIST}/AnotherGlass.war"/>
-        <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${WEBAPPS}/ROOT.war"/>        
+        <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${DIST}/AnotherGlass.war"/>      
     </target>
 </project>

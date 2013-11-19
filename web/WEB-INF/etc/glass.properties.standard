@@ -1,6 +1,6 @@
-postgresDbUrl=
-postgresDbUser=
-postgresDbPass=
+postgresDbUrl=jdbc:postgresql://localhost:5432/anotherglass
+postgresDbUser=anotherglass
+postgresDbPass=anotherglass
 wineUrl=
 apiKey=
 solrHome=

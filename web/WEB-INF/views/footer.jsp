@@ -1,5 +1,7 @@
-	<!-- scripts -->
-	<script src="/js/jquery.js"></script>
-	<script src="/js/bootstrap.js"></script>
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/custom.js"></script>
   </body>
 </html>

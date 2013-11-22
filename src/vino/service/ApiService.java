@@ -48,6 +48,7 @@ public class ApiService {
 			try {
 				String url = wineUrl + "catalog?size=" + fetchSize + "&apiKey=" + apiKey + "&offset=" + fetchOffset;
 				json = httpHelper.get(url);
+				log.trace("json="+json);
 			} catch (HttpException e) {
 				log.error("Error accessing server for some reason", e);				
 			}

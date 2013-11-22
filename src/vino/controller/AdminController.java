@@ -32,7 +32,7 @@ public class AdminController extends Controller {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 			request.setAttribute("jobs", manager.getJobs());
 			request.setAttribute("running", manager.getRunningJobCount());
-			return basePath() + "admin/view.jsp";
+			return basePath() + "admin/index.jsp";
 		}		
 	}
 	
@@ -43,6 +43,7 @@ public class AdminController extends Controller {
 			if (!fetchJob.isRunning()) {
 				fetchJob.start();				
 			}
+			// new GetJobInformation(); <-- is this considered okay, or should the browser call the servlet?
 			response.sendRedirect("/admin");
 			return null;
 		}		

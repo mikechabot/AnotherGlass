@@ -9,87 +9,77 @@ public class Wine {
    	private String Type;
    	private String Url;
    	private String Vintage;
+   	private Appellation Appellation;
    	private long Id;
    	private double PriceMax;
    	private double PriceMin;
    	private double PriceRetail;
-
-  	public String getDescription(){
+   	
+	public String getDescription() {
 		return Description;
 	}
-  	
-	public void setDescription(String description){
-		this.Description = description;
+	public void setDescription(String description) {
+		Description = description;
 	}
-	
- 	public long getId(){
-		return Id;
-	}
- 	
-	public void setId(long id){
-		this.Id = id;
-	}
-	
- 	public String getName(){
+	public String getName() {
 		return Name;
 	}
- 	
-	public void setName(String name){
-		this.Name = name;
+	public void setName(String name) {
+		Name = name;
 	}
-	
- 	public double getPriceMax(){
-		return PriceMax;
-	}
- 	
-	public void setPriceMax(long priceMax){
-		this.PriceMax = priceMax;
-	}
-	
- 	public double getPriceMin(){
-		return PriceMin;
-	}
- 	
-	public void setPriceMin(long priceMin){
-		this.PriceMin = priceMin;
-	}
-	
- 	public double getPriceRetail(){
-		return PriceRetail;
-	}
- 	
-	public void setPriceRetail(long priceRetail){
-		this.PriceRetail = priceRetail;
-	}
-	
- 	public String getRetail(){
+	public String getRetail() {
 		return Retail;
 	}
- 	
-	public void setRetail(String retail){
-		this.Retail = retail;
+	public void setRetail(String retail) {
+		Retail = retail;
 	}
-	
- 	public String getType(){
+	public String getType() {
 		return Type;
 	}
- 	
-	public void setType(String type){
-		this.Type = type;
+	public void setType(String type) {
+		Type = type;
 	}
-	
- 	public String getUrl(){
+	public String getUrl() {
 		return Url;
 	}
-	public void setUrl(String url){
-		this.Url = url;
+	public void setUrl(String url) {
+		Url = url;
 	}
-	
- 	public String getVintage(){
+	public String getVintage() {
 		return Vintage;
 	}
- 	
-	public void setVintage(String vintage){
-		this.Vintage = vintage;
+	public void setVintage(String vintage) {
+		Vintage = vintage;
 	}
+	public Appellation getAppellation() {
+		return Appellation;
+	}
+	public void setAppellation(Appellation appellation) {
+		this.Appellation = appellation;
+	}
+	public long getId() {
+		return Id;
+	}
+	public void setId(long id) {
+		Id = id;
+	}
+	public double getPriceMax() {
+		return PriceMax;
+	}
+	public void setPriceMax(double priceMax) {
+		PriceMax = priceMax;
+	}
+	public double getPriceMin() {
+		return PriceMin;
+	}
+	public void setPriceMin(double priceMin) {
+		PriceMin = priceMin;
+	}
+	public double getPriceRetail() {
+		return PriceRetail;
+	}
+	public void setPriceRetail(double priceRetail) {
+		PriceRetail = priceRetail;
+	}
+  	
 }

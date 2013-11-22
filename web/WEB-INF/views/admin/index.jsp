@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Styles -->
-    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/custom.css" rel="stylesheet">
     
     <!-- fonts -->
@@ -43,7 +43,7 @@
 		   			<th>Job Name</th>
 		   			<th>Description</th>
 		   			<th>Status</th>
-		   			<th>Last Run Time</th>
+		   			<th>Last Run</th>
 		   			<th>Last Run Duration</th>
 		   			<th>Action</th>
 	   			</tr>
@@ -56,8 +56,8 @@
 	            			<td class="text-success">Running</td>
 			    			<c:choose>
 			        			<c:when test="${empty entry.value.lastRunDate}">
-			            			<td>N/A</td>
-			            			<td>N/A</td>
+			            			<td>None</td>
+			            			<td>None</td>
 			        			</c:when>
 			        			<c:otherwise>
 									<td><c:out value="${entry.value.lastRunDate}"/></td>
@@ -74,8 +74,8 @@
 	            			<td>Idle</td>
 			    			<c:choose>
 			        			<c:when test="${empty entry.value.lastRunDate}">
-			            			<td>N/A</td>
-			            			<td>N/A</td>
+			            			<td>None</td>
+			            			<td>None</td>
 			        			</c:when>
 			        			<c:otherwise>
 									<td><c:out value="${entry.value.lastRunDate}"/></td>

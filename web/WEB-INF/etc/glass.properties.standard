@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # [Required] Postgres URL
 postgresDbUrl=jdbc:postgresql://[host]:[port]/[db_name]
 
@@ -9,6 +10,12 @@ postgresDbPass=
 wineUrl=http://services.wine.com/api/beta2/service.svc/json/
 
 # [Required] Wine.com API key
+=======
+postgresDbUrl=jdbc:postgresql://localhost:5432/anotherglass
+postgresDbUser=anotherglass
+postgresDbPass=anotherglass
+wineUrl=
+>>>>>>> 91582f5e8b83db816c4c76832cad5723ad68ee46
 apiKey=
 
 # [Optional] Number of wines to fetch during each service call (Default: 400)

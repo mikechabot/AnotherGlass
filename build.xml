@@ -68,6 +68,6 @@
             <classes dir="${DIST.CLASSES}" includes="*.properties *.xml" excludes="version.properties"/>
         </war>
         <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${DIST}/ROOT.war"/>
-        <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${DIST}/AnotherGlass.war"/>      
+        <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${DIST}/AnotherGlass.war"/>
     </target>
 </project>

@@ -43,9 +43,8 @@ public class SearchController extends Controller {
             String query = params.getString("query");
             if (query != null && query.length() > 0) {
             	wines = DatabaseService.searchWines(query);
+            	request.setAttribute("wines", wines);
             }
-            
-            request.setAttribute("wines", wines);
 			
 			return basePath() + "/index.jsp";
 		}		

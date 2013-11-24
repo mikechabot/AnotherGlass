@@ -1,12 +1,12 @@
 package vino.model;
 
-public class Appellation {
-
+public class Region {
+	
 	private long Id;
-	private long wineId;
+	private long regionId;
 	private String Name;
 	private String Url;
-	private Region Region;
+	private String Area;
 	
 	public long getId() {
 		return Id;
@@ -14,11 +14,11 @@ public class Appellation {
 	public void setId(long id) {
 		Id = id;
 	}
-	public long getWineId() {
-		return wineId;
+	public long getRegionId() {
+		return regionId;
 	}
-	public void setWineId(long wineId) {
-		this.wineId = wineId;
+	public void setRegionId(long regionId) {
+		this.regionId = regionId;
 	}
 	public String getName() {
 		return Name;
@@ -32,11 +32,11 @@ public class Appellation {
 	public void setUrl(String url) {
 		Url = url;
 	}
-	public Region getRegion() {
-		return Region;
+	public String getArea() {
+		return Area;
 	}
-	public void setRegion(Region region) {
-		this.Region = region;
-	}
+	public void setArea(String area) {
+		Area = area;
+	}	
 	
 }

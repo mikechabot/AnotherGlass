@@ -4,16 +4,16 @@ package vino.model;
 public class Wine {
 	
 	private String Description;
-   	private String Name;   	
-   	private String Retail;
-   	private String Type;
-   	private String Url;
-   	private String Vintage;
-   	private Appellation Appellation;
-   	private long Id;
-   	private double PriceMax;
-   	private double PriceMin;
-   	private double PriceRetail;
+	private String Name;   	
+	private String Retail;
+	private String Type;
+	private String Url;
+	private String Vintage;
+	private Appellation Appellation;
+	private long Id;
+	private double PriceMax;
+	private double PriceMin;
+	private double PriceRetail;
    	
 	public String getDescription() {
 		return Description;

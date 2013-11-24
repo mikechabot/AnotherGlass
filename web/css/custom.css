@@ -1,6 +1,9 @@
+/* Move down content because there's a fixed navbar that's 50px tall */
 body {
-	font-family: Open Sans, Arial, sans serif;
-	font-size: 12px;
+  padding-top: 50px;
+  padding-bottom: 20px;
+  font-family: Open Sans, Arial, sans serif;
+  font-size: 12px;
 }
 
 h1 {
@@ -16,9 +19,28 @@ h1 {
 	margin-bottom: 10px;
 }
 
-/** NAVBAR **/
-/* Move down content because there's a fixed navbar that's 50px tall */
-body {
-  padding-top: 50px;
-  padding-bottom: 20px;
+.container-thin {
+	max-width: 800px;
 }
+
+/* Tablesorter */
+th.header { 
+    background-image: url(/img/bg.gif);     
+    cursor: pointer; 
+    font-weight: bold; 
+    background-repeat: no-repeat; 
+    background-position: center right; 
+    padding-left: 20px; 
+    margin-left: -1px; 
+} 
+
+th.headerSortUp { 
+    background-image: url(/img/asc.gif); 
+    background-color: #E0E0E0;
+}
+
+th.headerSortDown { 
+    background-image: url(/img/desc.gif); 
+    background-color: #E0E0E0; 
+}
+

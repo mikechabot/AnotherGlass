@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:import url="/WEB-INF/views/header.jsp"/>
+
 	<!-- Navigation -->
     <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
       <div class="container">
@@ -31,41 +32,47 @@
         </div><!--/.navbar-collapse -->
       </div>
     </div>
-   
+    
    	<!-- Body -->
-    <div class="container">
-    <c:choose>
-    	<c:when test="${fn:length(wines) > 0}">
-		<h4>Found <c:out value="${wines.size()}"/> wines</h4>
-		<table class="table table-striped">
-       		<tr>
-       			<th>Name</th>
-       			<th>Description</th>
-       			<th>Origin</th>
-       			<th>Retail</th>
-       			<th>Type</th>
-       			<th>Vintage</th>
-       			<th>Retail Price</th>
-       		</tr>
-	        <c:forEach  var="wine" items="${wines}">
-				<c:if test="${not empty wine}">
+   	<div class="container container-thin">
+	    <div class="container">
+	    <div class="row">
+			<div class="col-xs-12 col-md-8">
+			<br>
+			<div class="panel panel-default">
+			<c:choose>
+				<c:when test="${fn:length(wines) > 0}">
+				<div class="panel-heading"><h4>Found <c:out value="${wines.size()}"/> wines</h4></div>
+				<table id="results" class="tablesorter table">
+					<thead>
 					<tr>
-	        			<td><a href="${wine.getUrl()}">${wine.getName()}</a></td>
-	        			<td><c:out value="${wine.getDescription()}"/></td>
-	        			<td><c:out value="${wine.getAppellation().getName()}"/></td>
-	        			<td><c:out value="${wine.getRetail()}"/></td>
-	        			<td><c:out value="${wine.getType()}"/></td>
-	        			<td><c:out value="${wine.getVintage()}"/></td>
-	        			<fmt:setLocale value="en_US"/>
-	        			<td><fmt:formatNumber type="currency" value="${wine.getPriceRetail()}" /></td>
-	        		</tr>
-				</c:if>
-	        </c:forEach>
-        </table>     		
-    	</c:when>
-    	<c:otherwise>
-          	<h4>No wines found</h4>
-    	</c:otherwise>
-    </c:choose>
-    </div> <!-- /container -->
+		     			<th class="header">Name</th>
+		     			<th class="header">Appellation</th>
+		     			<th class="header">Region</th>
+		     		</tr>
+		     		</thead>
+		     		<tbody>
+				    <c:forEach  var="wine" items="${wines}">
+						<c:if test="${not empty wine}">
+							<tr>
+							<td><a href="${wine.url}">${wine.name}</a></td>
+							<td><c:out value="${wine.appellation.name}">Unknown</c:out></td>
+							<td><c:out value="${wine.appellation.region.name}">Unknown</c:out></td>
+							</tr>
+						</c:if>
+					</c:forEach>
+				 	</tbody>
+				</table>
+				</c:when>
+				<c:otherwise>
+				<h4>No wines found</h4>
+				</c:otherwise>
+			</c:choose>
+		     </div>	
+			</div>
+			<div class="col-xs-6 col-md-4">Trending</div>
+		</div>
+	    </div> <!-- /container -->
+    </div> <!-- /container-thin -->
+    
 <c:import url="/WEB-INF/views/footer.jsp"/>

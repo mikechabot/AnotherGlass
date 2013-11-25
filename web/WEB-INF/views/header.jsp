@@ -1,3 +1,4 @@
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,3 +31,5 @@
     <![endif]-->
   </head>
   <body>
+
+  Hello, <shiro:principal/>, how are you today?

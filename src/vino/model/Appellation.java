@@ -1,9 +1,10 @@
 package vino.model;
 
-public class Appellation {
+public class Appellation implements SearchResult{
 
 	private long Id;
 	private long wineId;
+	private long wineCount;
 	private String Name;
 	private String Url;
 	private Region Region;
@@ -19,6 +20,12 @@ public class Appellation {
 	}
 	public void setWineId(long wineId) {
 		this.wineId = wineId;
+	}
+	public long getWineCount() {
+		return wineCount;
+	}
+	public void setWineCount(long wineCount) {
+		this.wineCount = wineCount;
 	}
 	public String getName() {
 		return Name;

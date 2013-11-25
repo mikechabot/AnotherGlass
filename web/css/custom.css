@@ -1,44 +1,82 @@
 /* Move down content because there's a fixed navbar that's 50px tall */
 body {
-  padding-top: 50px;
-  padding-bottom: 20px;
-  font-family: Open Sans, Arial, sans serif;
-  font-size: 12px;
+	padding-top: 50px;
+  	padding-bottom: 20px;
+  	font-family: Open Sans, Arial, sans serif;
+  	font-size: 12px;
+}
+
+body#admin {
+	padding-top: 0px;
 }
 
 h1 {
 	font-family: Open Sans, Arial, sans serif;
 }
 
+.big-icon {
+	font-size: 28px;
+}
+
+.panel-heading {
+	padding:10px 15px 20px;	
+}
+
 .table-nonfluid {
 	width: auto;
 }
 
-.border-bottom {
-	border-bottom: 1px solid #C0C0C0;
-	margin-bottom: 10px;
+.container-half { 
+	max-width: 50%;
 }
 
 .container-thin {
-	max-width: 800px;
+	max-width: 975px;
 }
 
-/* Tablesorter */
+/* SEARCH TOGGLE */
+#search-toggle thead>tr>th { 
+    border-top: none;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    text-align:center;
+	background-color: #F0F0F0;
+}
+#search-toggle .active-toggle {
+	background-color: #E8E8E8;
+}
+
+#search-toggle .border-right {
+	border-right: 1px solid #ddd;
+}
+
+/* NO RESULTS */
+#no-results tbody>tr>th {
+	border-top: none;
+	font-size: 18px;
+}
+
+#no-results tbody>tr>td {
+	font-size: 16px;
+	padding-top: 15px;
+}
+
+/* TABLESORTER */
+.table>thead>tr>th {
+	padding-left: 20px;
+}
 th.header { 
     background-image: url(/img/bg.gif);     
     cursor: pointer; 
     font-weight: bold; 
     background-repeat: no-repeat; 
-    background-position: center right; 
-    padding-left: 20px; 
+    background-position: left; 
     margin-left: -1px; 
 } 
-
 th.headerSortUp { 
     background-image: url(/img/asc.gif); 
     background-color: #E0E0E0;
 }
-
 th.headerSortDown { 
     background-image: url(/img/desc.gif); 
     background-color: #E0E0E0; 

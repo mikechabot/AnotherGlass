@@ -51,7 +51,8 @@ public class WineApiJob extends Job implements Runnable  {
 		log.info("Starting thread, " + getJobName());
 		runDate = new Date().getTime();
         while (running) {
-			DatabaseService.dropAndCreateWinesTable();				
+        	DatabaseService.dropSchema();	
+			DatabaseService.createSchema();				
 			List<Wine> wines = new ArrayList<Wine>(ApiService.fetch());
 			if(!wines.isEmpty()) {
 				DatabaseService.insertWines(wines);	

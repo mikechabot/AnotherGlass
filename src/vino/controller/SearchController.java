@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import vino.Controller;
 import vino.Params;
-import vino.model.Wine;
+import vino.Query;
+import vino.model.SearchResult;
 import vino.service.DatabaseService;
 
 public class SearchController extends Controller {
@@ -38,14 +39,24 @@ public class SearchController extends Controller {
             	return null;
             }
             
-            // Send back a list of Wine objects
-            List<Wine> wines = new ArrayList<Wine>();
-            String query = params.getString("query");
-            if (query != null && query.length() > 0) {
+            Query query = new Query(params.getString("q"), params.getString("type"));
+            
+            if (query.getType() != null && query.getType().length() > 0) {
+            	if (query.getType().equals("vineyards")) {
+            		List<SearchResult> vineyards = new ArrayList<SearchResult>();
+                	vineyards = DatabaseService.searchVineyards(query);
+                	query.setResults(vineyards);
+            	} else if (query.getType().equals("regions")) {
+              		List<SearchResult> regions = new ArrayList<SearchResult>();
+              		regions = DatabaseService.searchRegions(query);
+              		query.setResults(regions);
+            	}
+            } else if (query.getQuery() != null && query.getQuery().length() > 0) {
+                List<SearchResult> wines = new ArrayList<SearchResult>();
             	wines = DatabaseService.searchWines(query);
-            	request.setAttribute("wines", wines);
+            	query.setResults(wines);
             }
-			
+            request.setAttribute("query", query);
 			return basePath() + "/index.jsp";
 		}		
 	}

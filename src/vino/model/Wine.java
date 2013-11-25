@@ -1,7 +1,7 @@
 
 package vino.model;
 
-public class Wine {
+public class Wine implements SearchResult {
 	
 	private String Description;
 	private String Name;   	
@@ -10,6 +10,7 @@ public class Wine {
 	private String Url;
 	private String Vintage;
 	private Appellation Appellation;
+	private Vineyard Vineyard;
 	private long Id;
 	private double PriceMax;
 	private double PriceMin;
@@ -56,6 +57,12 @@ public class Wine {
 	}
 	public void setAppellation(Appellation appellation) {
 		this.Appellation = appellation;
+	}
+	public Vineyard getVineyard() {
+		return Vineyard;
+	}
+	public void setVineyard(Vineyard vineyard) {
+		this.Vineyard = vineyard;
 	}
 	public long getId() {
 		return Id;

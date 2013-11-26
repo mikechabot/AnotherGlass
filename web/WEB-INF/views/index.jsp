@@ -2,52 +2,22 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:import url="/WEB-INF/views/header.jsp"/>
-<c:set var="results" value="${query.results}"/>
-
-	<!-- Navigation -->
-    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="/">AnotherGlass</a>
-        </div>
-		<!-- Collect the nav links, forms, and other content for toggling -->
-	      <ul class="nav navbar-nav">
-	        <li class="active"><a href="/">Home</a></li>
-	        <li><a href="#">The Cellar</a></li>
-	        <li><a href="#">Top Rated</a></li>
-	      </ul>
-        <div class="navbar-collapse collapse">
-          <form class="navbar-form navbar-right" action="/search" method="get">
-			<c:choose>
-				<c:when test="${query.type == 'vineyards'}">
-					<input type="hidden" name="type" value="vineyards">
-				</c:when>
-				<c:when test="${query.type == 'regions'}">
-					<input type="hidden" name="type" value="regions">
-				</c:when>
-			</c:choose>
-            <div class="form-group">
-              <input type="text" name="q" placeholder="What are you sipping?" class="form-control">
-            </div>
-            <button type="submit" class="btn btn-default">Search</button>
-          </form>
-        </div><!--/.navbar-collapse -->
-      </div>
-    </div>
-    
+<c:import url="/WEB-INF/views/navigation.jsp"/>
+<c:set var="results" value="${query.results}"/>  
+  
    	<!-- Body -->
-   	<div class="container container-thin">
+   	<div id="container-index" class="container">
 	    <div class="container">
 			<div class="row">
+				<div class="col-xs-12 col-md-12 text-right">
+					<br>			
+					<p class="text-info"><shiro:user>Welcome back, <shiro:principal/> <a href="/logout" class="btn btn-default btn-xs">Logout</a></</shiro:user></p>					
+				</div>
+			</div>
+			<div class="row">
 				<div class="col-xs-12 col-md-9">
-				<br>
 				<div class="panel panel-default">
 					<c:if test="${not empty results}">
 						<div class="panel-heading"><h2>Search Results</h2>
@@ -229,7 +199,6 @@
 				</div>	<!-- /panel -->
 				</div>	<!-- /col-xs-12 col-md-9 -->
 				<div class="col-xs-6 col-md-3">
-				<br>
 				<div class="panel panel-default">
 					<div class="panel-heading"><h4>Trending</h4>
 						<table class="table"><tr><td>Content for days!</td></tr></table>
@@ -238,6 +207,6 @@
 				</div>		<!-- /col-xs-6 col-md-3 -->
 			</div> 	<!-- /row -->
 	    </div> 	<!-- /container -->
-    </div> 		<!-- /container-thin -->
+    </div> 		<!-- /container-index -->
     
 <c:import url="/WEB-INF/views/footer.jsp"/>

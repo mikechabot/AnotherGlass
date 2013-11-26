@@ -6,7 +6,7 @@ body {
   	font-size: 12px;
 }
 
-body#admin {
+body.strapless {
 	padding-top: 0px;
 }
 
@@ -16,6 +16,10 @@ h1 {
 
 .big-icon {
 	font-size: 28px;
+}
+
+.error {
+	margin-top: 5px;
 }
 
 .panel-heading {
@@ -30,8 +34,17 @@ h1 {
 	max-width: 50%;
 }
 
-.container-thin {
+#container-index {
 	max-width: 975px;
+}
+
+#container-error {
+	margin-top: 25px;
+	max-width: 700px;
+}
+
+#container-login {
+	max-width: 400px;
 }
 
 /* SEARCH TOGGLE */

@@ -24,7 +24,7 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body id="admin">
+  <body class="strapless">
 	<div class="container">
 	<div class="page-header">
   		<h1>Admin Tools <small>AnotherGlass</small></h1>

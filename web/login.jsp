@@ -3,25 +3,26 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:import url="/WEB-INF/views/header.jsp"/>
-<c:if test="${not empty loginFailure}">
-  <span class="errors">The credentials you entered were incorrect.</span>
-</c:if>
-<form name="loginform" action="" method="post">
-    <table align="left" border="0" cellspacing="0" cellpadding="3">
-        <tr>
-            <td>Username:</td>
-            <td><input type="text" name="username" maxlength="30"></td>
-        </tr>
-        <tr>
-            <td>Password:</td>
-            <td><input type="password" name="password" maxlength="30"></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="left"><input type="checkbox" name="rememberMe"><font size="2">Remember Me</font></td>
-        </tr>
-        <tr>
-            <td colspan="2" align="right"><input type="submit" name="submit" value="Login"></td>
-        </tr>
-    </table>
-</form>
+<c:import url="/WEB-INF/views/navigation.jsp"/>
+
+<div id="container-login" class="container">
+	<h2>Login <small>AnotherGlass</small></h2>
+	<form role="form" name="loginform" action="" method="post">
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input type="text" class="form-control" name="username" placeholder="Username">
+		</div>
+		<div class="form-group">
+			<label for="exampleInputPassword1">Password</label>
+			<input type="password" class="form-control" name="password" placeholder="Password">
+		</div>
+		<div class="checkbox">
+			<label><input type="checkbox" name="rememberMe"> Remember me</label>
+		</div>
+		<button type="submit" class="btn btn-default">Login</button>
+	</form>
+	<c:if test="${not empty loginFailure}">
+ 	<p class="text-danger error">The credentials you entered were incorrect.</p>
+	</c:if>
+</div>
 <c:import url="/WEB-INF/views/footer.jsp"/>

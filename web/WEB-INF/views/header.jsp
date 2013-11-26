@@ -1,4 +1,4 @@
-<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,6 +30,4 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body>
-
-   <shiro:user>Hello, <shiro:principal/>, how are you today? <a href="/logout">logout</a></</shiro:user>
+  <body> 

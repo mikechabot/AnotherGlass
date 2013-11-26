@@ -32,4 +32,4 @@
   </head>
   <body>
 
-  Hello, <shiro:principal/>, how are you today?
+   <shiro:user>Hello, <shiro:principal/>, how are you today? <a href="/logout">logout</a></</shiro:user>

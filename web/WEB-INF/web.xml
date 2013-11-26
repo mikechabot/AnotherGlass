@@ -13,8 +13,12 @@
     <init-param>
     	<param-name>config</param-name>
     	<param-value>
+		[main]
+		shiro.loginUrl = /login.jsp
+		authc.failureKeyAttribute=loginFailure
+
 		[users]
-	    	# format: username = password, role1, role2, ..., roleN
+	    # format: username = password, role1, role2, ..., roleN
 		admin = admin, admin
 		user = user, user
 		
@@ -23,8 +27,11 @@
 		user = user:*
 		
 		[urls]
-		/admin/** = authcBasic, roles["admin"]
-		/** = authcBasic     	
+		# authc = super secure (no remember me sessions), user = less secure (remember me sessions allowed) 
+		/login.jsp = authc
+		/search/** = user
+		/admin/** = authc, roles["admin"]
+		/logout = logout
    		</param-value>
     </init-param>
  </filter> 

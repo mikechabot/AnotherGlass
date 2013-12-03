@@ -3,6 +3,15 @@ AnotherGlass
 
 Pour another glass...
 
+## Models
+
+* User
+* Friends - > UserId, FriendId
+* FriendRequests -> UserId, FriendId
+* CheckIn -> UserId, WineId
+* Activity -> UserId, FriendId, WineId, Type ("CheckIn,FriendRequest")
+
+
 v1.0 Milestone
 --------------
 

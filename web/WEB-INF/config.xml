@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="config.xsd">
+	<mode>dev</mode>
+	<database>
+		<mode>dev</mode>
+		<driver>org.postgresql.Driver</driver>
+		<url>jdbc:postgresql://localhost:8088/postgres</url>
+		<username>username</username>
+		<password>password</password>
+	</database>
+	<database>
+		<mode>test</mode>
+		<driver>org.postgresql.Driver</driver>
+		<url>jdbc:postgresql://localhost:8088/postgres</url>
+		<username>username</username>
+		<password>password</password>
+	</database>
+	<database>
+		<mode>prod</mode>
+		<driver>org.postgresql.Driver</driver>
+		<url>jdbc:postgresql://localhost:8088/postgres</url>
+		<username>username</username>
+		<password>password</password>
+	</database>
+	<wineApi>
+		<url>http://services.wine.com/api/beta2/service.svc/json/</url>
+		<key>b77c34d4cc093ccc98977db8e10c7e85</key>
+		<fetchSize>300</fetchSize>
+		<fetchOffset>66800</fetchOffset>
+	</wineApi>
+</configuration>

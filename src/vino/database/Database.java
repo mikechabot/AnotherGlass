@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import vino.config.Configuration;
-import vino.config.Configuration.ConfigurationException;
-
-
+import vino.config.Configuration.DatabaseConfiguration;
 
 public class Database {
 	
@@ -18,22 +16,13 @@ public class Database {
 	public Connection getConnection() {
 		
 		Configuration config = Configuration.getInstance();
-		try {
-			config.initialize();
-		} 
-		catch (ConfigurationException e) {
-			log.error("Could not load configuration for some reason", e);
-		}
-
-		String url = config.getRequiredString("postgresDbUrl");
-		String user = config.getRequiredString("postgresDbUser");
-		String pass = config.getRequiredString("postgresDbPass");		
+		DatabaseConfiguration databaseConfiguration = config.getDatabase();
 		
 		Connection connection = null;
 		
 		try {
-			Class.forName("org.postgresql.Driver");
-			connection = DriverManager.getConnection(url, user, pass);				
+			Class.forName(databaseConfiguration.getDriver());
+			connection = DriverManager.getConnection(databaseConfiguration.getUrl(), databaseConfiguration.getUsername(), databaseConfiguration.getPassword());				
 		} catch (ClassNotFoundException e) {
 			log.error("Unable to locate Postgres driver", e);
 		} catch (SQLException e) {

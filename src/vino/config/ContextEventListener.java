@@ -28,9 +28,7 @@ public class ContextEventListener implements ServletContextListener {
             log.info("AnotherGlass, v" + Version.display());
 
             Configuration conf = Configuration.getInstance();
-            conf.initialize(path);
-            
-            log.info("Loaded glass.properties "); 
+            log.info("Loaded config.xml "); 
             
             // Verify database connectivity
             String sql = "select version()";

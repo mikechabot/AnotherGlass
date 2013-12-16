@@ -6,7 +6,6 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import vino.config.Configuration;
-import vino.config.Configuration.ConfigurationException;
 import vino.http.HttpException;
 import vino.http.HttpHelper;
 import vino.model.Products;
@@ -23,18 +22,7 @@ public class ApiService {
 	public static List<Wine> fetch() {
 		
 		Configuration config = Configuration.getInstance();
-		try {
-			config.initialize();
-		} 
-		catch (ConfigurationException e) {
-			log.error("Could not load configuration for some reason", e);
-		}
-		
-		String wineUrl = config.getRequiredString("wineUrl");
-		String apiKey = config.getRequiredString("apiKey");
-		int fetchSize = config.getOptionalInt("fetchSize", 400);
-		int fetchOffset = config.getOptionalInt("fetchOffset", 0);
-		
+				
 		HttpHelper httpHelper = new HttpHelper();
 		
 		List<Wine> wines = new ArrayList<Wine>(0);
@@ -43,10 +31,12 @@ public class ApiService {
 				
 		String json = null;
 
-		log.info("Starting fetch from " + wineUrl);
+		long fetchOffset = config.getWineApi().getFetchOffset();
+		
+		log.info("Starting fetch from " + config.getWineApi().getUrl());
 		do {
 			try {
-				String url = wineUrl + "catalog?size=" + fetchSize + "&apiKey=" + apiKey + "&offset=" + fetchOffset;
+				String url = config.getWineApi().getUrl() + "catalog?size=" + config.getWineApi().getFetchSize() + "&apiKey=" + config.getWineApi().getKey() + "&offset=" + fetchOffset;
 				json = httpHelper.get(url);
 				log.trace("json="+json);
 			} catch (HttpException e) {
@@ -56,7 +46,7 @@ public class ApiService {
 			temp = response.getProducts().getList();
 			wines.addAll(temp);
 			log.info("Fetched " + temp.size() + " wines for a total of " + wines.size());
-			fetchOffset+=fetchSize;
+			fetchOffset += config.getWineApi().getFetchSize();
 		} while (!temp.isEmpty());
 		
 		log.info("Fetch complete, got " + wines.size() + " wines");

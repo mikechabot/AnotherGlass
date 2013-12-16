@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+	<xs:element name="configuration" type="configuration" />
+
+	<xs:element name="databaseConfiguration" type="databaseConfiguration" />
+
+	<xs:element name="wineApiConfiguration" type="wineApiConfiguration" />
+
+	<xs:complexType name="configuration">
+		<xs:sequence>
+			<xs:element name="mode" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="dev" />
+						<xs:enumeration value="test" />
+						<xs:enumeration value="prod" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="database" type="databaseConfiguration"
+				nillable="false" minOccurs="3" maxOccurs="3" />
+			<xs:element name="wineApi" type="wineApiConfiguration"
+				minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="databaseConfiguration">
+		<xs:sequence>
+			<xs:element name="mode" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="dev" />
+						<xs:enumeration value="test" />
+						<xs:enumeration value="prod" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="driver" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="url" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="username" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="password" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="wineApiConfiguration">
+		<xs:sequence>
+			<xs:element name="url" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="key" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="fetchSize" type="xs:long" />
+			<xs:element name="fetchOffset" type="xs:long" />
+		</xs:sequence>
+	</xs:complexType>
+
+</xs:schema>

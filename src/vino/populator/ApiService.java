@@ -1,4 +1,4 @@
-package vino.service;
+package vino.populator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,9 +8,6 @@ import org.apache.log4j.Logger;
 import vino.config.Configuration;
 import vino.http.HttpException;
 import vino.http.HttpHelper;
-import vino.model.Products;
-import vino.model.Status;
-import vino.model.Wine;
 
 import com.google.gson.Gson;
 

@@ -1,6 +1,6 @@
-package vino.model;
+package vino.populator;
 
-public class Vineyard implements SearchResult{
+public class Vineyard {
 
 	public long Id;
 	public String Name;

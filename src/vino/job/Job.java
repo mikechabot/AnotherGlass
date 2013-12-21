@@ -1,17 +1,17 @@
 package vino.job;
 
-public abstract class Job {
+public interface Job extends Runnable {
 	
-	public abstract boolean isRunning();
+	public boolean isRunning();
 	
-	public abstract String getJobServletUrl();
+	public String getJobServletUrl();
 	
-	public abstract String getJobName();
+	public String getJobName();
 	
-	public abstract String getJobDescription();
+	public String getJobDescription();
 	
-	public abstract String getLastRunDate();
+	public String getLastRunDate();
 	
-	public abstract String getLastRunDuration();
+	public String getLastRunDuration();
 	
 }

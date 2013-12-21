@@ -1,10 +1,9 @@
-package vino;
+package vino.job;
 
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import vino.job.Job;
-import vino.reflections.Reflection;
+import vino.Reflection;
 
 public class JobManager {
 

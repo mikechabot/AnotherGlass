@@ -1,33 +1,26 @@
 package vino.job;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import vino.job.Job;
-import vino.model.Wine;
-import vino.service.ApiService;
-import vino.service.DatabaseService;
 import vino.utils.DateUtils;
 
-
-public class WineApiJob extends Job implements Runnable  {
+public class WinePopulatorJob implements Job {
 	
-	private static Logger log = Logger.getLogger(WineApiJob.class);
+	private static Logger log = Logger.getLogger(WinePopulatorJob.class);
 	
 	private static Thread thread;
-	private static WineApiJob fetchJob;
+	private static WinePopulatorJob fetchJob;
 	private static long runDate;
 	private static long stopDate;
-	private static boolean running;
-	
+	private static boolean running;	
 	
 	// Disallow fetching more than once at the same time
-    public static WineApiJob getInstance() {
+    public static WinePopulatorJob getInstance() {
         if (fetchJob == null) {
-        	fetchJob = new WineApiJob();
+        	fetchJob = new WinePopulatorJob();
         }
         return fetchJob;
     }
@@ -51,14 +44,7 @@ public class WineApiJob extends Job implements Runnable  {
 		log.info("Starting thread, " + getJobName());
 		runDate = new Date().getTime();
         while (running) {
-        	DatabaseService.dropSchema();	
-			DatabaseService.createSchema();				
-			List<Wine> wines = new ArrayList<Wine>(ApiService.fetch());
-			if(!wines.isEmpty()) {
-				DatabaseService.insertWines(wines);	
-			} else {
-				log.warn("No wines were inserted; empty list returned from FetchWinesFromApiService.fetch()");
-			}
+        	//TODO update logic to populate tables
 			stop();
 			stopDate = new Date().getTime();
         }     
@@ -71,7 +57,7 @@ public class WineApiJob extends Job implements Runnable  {
 
 	@Override
 	public String getJobName() {
-		return WineApiJob.class.getSimpleName();
+		return WinePopulatorJob.class.getSimpleName();
 	}
 
 	@Override

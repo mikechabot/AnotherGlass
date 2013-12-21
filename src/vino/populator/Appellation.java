@@ -1,6 +1,6 @@
-package vino.model;
+package vino.populator;
 
-public class Appellation implements SearchResult{
+public class Appellation {
 
 	private long Id;
 	private long wineId;

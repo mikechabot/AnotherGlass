@@ -1,6 +1,6 @@
 package vino.utils;
 
-public class DbUtils {
+public class StringUtils {
 
 	public static String scrub(Object object) {
 		if(object == null || object.equals("")) {

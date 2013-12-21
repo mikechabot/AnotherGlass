@@ -1,4 +1,4 @@
-package vino.reflections;
+package vino;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;

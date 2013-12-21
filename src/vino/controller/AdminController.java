@@ -4,9 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import vino.Controller;
-import vino.JobManager;
-import vino.job.WineApiJob;
-
+import vino.job.JobManager;
+import vino.job.WinePopulatorJob;
 
 public class AdminController extends Controller {
 
@@ -20,7 +19,7 @@ public class AdminController extends Controller {
 	@Override
 	protected void initActions() {
 		addAction(null, new GetJobInformation());
-		addAction("/fetch", new RunFetchWineJob());
+		addAction("/populate", new RunWinePopulatorJob());
 	}
 
 	@Override
@@ -36,14 +35,13 @@ public class AdminController extends Controller {
 		}		
 	}
 	
-	public class RunFetchWineJob implements Action {
+	public class RunWinePopulatorJob implements Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			// Start a fetch job if it's not already running
-			WineApiJob fetchJob = WineApiJob.getInstance();
-			if (!fetchJob.isRunning()) {
-				fetchJob.start();				
+			WinePopulatorJob job = WinePopulatorJob.getInstance();
+			if (!job.isRunning()) {
+				job.start();
 			}
-			// new GetJobInformation(); <-- is this considered okay, or should the browser call the servlet?
 			response.sendRedirect("/admin");
 			return null;
 		}		

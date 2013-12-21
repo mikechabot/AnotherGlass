@@ -1,7 +1,7 @@
 
-package vino.model;
+package vino.populator;
 
-public class Wine implements SearchResult {
+public class Wine {
 	
 	private String Description;
 	private String Name;   	

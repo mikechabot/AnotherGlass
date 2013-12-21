@@ -1,4 +1,4 @@
-package vino.model;
+package vino.populator;
 
 import java.util.Arrays;
 

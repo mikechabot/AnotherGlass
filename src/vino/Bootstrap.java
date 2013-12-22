@@ -1,4 +1,4 @@
-package vino.config;
+package vino;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,16 +10,14 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 
-import vino.config.Configuration;
-import vino.config.Version;
 import vino.database.Database;
 import vino.job.JobManager;
 
-public class ContextEventListener implements ServletContextListener {
+public class Bootstrap implements ServletContextListener {
 	
-    private static Logger log = Logger.getLogger(ContextEventListener.class);
+    private static Logger log = Logger.getLogger(Bootstrap.class);
     
-    public void contextInitialized(ServletContextEvent sce) {    	        
+    public void contextInitialized(ServletContextEvent sce) {    
         try {
         	ServletContext c = sce.getServletContext();
             String path = c.getRealPath(".");
@@ -29,7 +27,9 @@ public class ContextEventListener implements ServletContextListener {
             Version.load();
             log.info("AnotherGlass, v" + Version.display());
 
-            Configuration.getInstance();
+            Configuration config = Configuration.getInstance();
+            config.loadFromXMLFile(path);
+            
             log.info("Loaded config.xml "); 
 
             verifyDatabaseConnectivity();

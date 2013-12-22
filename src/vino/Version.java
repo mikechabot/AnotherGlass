@@ -1,4 +1,4 @@
-package vino.config;
+package vino;
 
 import java.io.IOException;
 import java.io.InputStream;

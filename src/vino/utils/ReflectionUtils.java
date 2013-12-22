@@ -1,4 +1,4 @@
-package vino;
+package vino.utils;
 
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
@@ -7,9 +7,9 @@ import java.util.Collection;
 import org.apache.log4j.Logger;
 import org.reflections.Reflections;
 
-public class Reflection {
+public class ReflectionUtils {
     
-	private static final Logger log = Logger.getLogger(Reflection.class);
+	private static final Logger log = Logger.getLogger(ReflectionUtils.class);
     
 	public static <S> Iterable<S> findSubTypesOf(String pkg, Class<S> clazz) {
 		Collection<S> collection = new ArrayList<S>();
@@ -26,4 +26,5 @@ public class Reflection {
 		}
 		return collection;
 	}
+	
 }

@@ -8,8 +8,8 @@ import java.sql.Statement;
 
 import org.apache.log4j.Logger;
 
-import vino.config.Configuration;
-import vino.config.Configuration.DatabaseConfiguration;
+import vino.Configuration;
+import vino.Configuration.DatabaseConfiguration;
 
 public class Database {
 	

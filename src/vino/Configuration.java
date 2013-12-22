@@ -1,4 +1,4 @@
-package vino.config;
+package vino;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -36,15 +36,7 @@ public class Configuration {
         
     public static Configuration getInstance() {
         if (configuration == null) {        	
-        	try {
-        		configuration = new Configuration();
-        		configuration.loadFromXMLFile();
-        	}
-        	catch (IOException e) {
-        		log.error("Unable to read config.xml file", e);
-        	} catch (JAXBException e) {
-        		log.error("Unable to parse config.xml file", e);
-			}
+    		configuration = new Configuration();
         }
         return configuration;
     }
@@ -72,14 +64,14 @@ public class Configuration {
 	
 	private Configuration() {}
     
-    private void loadFromXMLFile() throws IOException, JAXBException {    	
+    public void loadFromXMLFile(String path) throws IOException, JAXBException {    	
     	String xml = null;
     	
     	try {
-    		xml = Files.toString(new File("./WEB-INF/config.xml"), Charsets.UTF_8);
+    		xml = Files.toString(new File(path, "./WEB-INF/config.xml"), Charsets.UTF_8);
     	}
     	catch (IOException e) {
-    		xml = Files.toString(new File("./web/WEB-INF/config.xml"), Charsets.UTF_8);
+    		xml = Files.toString(new File(path, "./web/WEB-INF/config.xml"), Charsets.UTF_8);
     	}
     	
     	JAXBContext jaxbContext = JAXBContext.newInstance(Configuration.class);

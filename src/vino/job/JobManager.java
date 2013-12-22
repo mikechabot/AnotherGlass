@@ -3,7 +3,7 @@ package vino.job;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 
-import vino.Reflection;
+import vino.utils.ReflectionUtils;
 
 public class JobManager {
 
@@ -53,8 +53,8 @@ public class JobManager {
 	}
 	
 	public void populateJobsMap() {
-		for(Job each : Reflection.findSubTypesOf("vino.job", Job.class)) {
-			jobs.put(each.getJobName(), each);						
+		for(Job each : ReflectionUtils.findSubTypesOf("vino.job", Job.class)) {
+			jobs.put(each.getJobName(), each);
 		}
 	}
 	

@@ -5,23 +5,23 @@
 	<database>
 		<mode>dev</mode>
 		<driver>org.postgresql.Driver</driver>
-		<url>jdbc:postgresql://localhost:8088/postgres</url>
-		<username>username</username>
-		<password>password</password>
+		<url>jdbc:postgresql://localhost:5432/dev</url>
+		<username>anotherglass</username>
+		<password>anotherglass</password>
 	</database>
 	<database>
 		<mode>test</mode>
 		<driver>org.postgresql.Driver</driver>
-		<url>jdbc:postgresql://localhost:8088/postgres</url>
-		<username>username</username>
-		<password>password</password>
+		<url>jdbc:postgresql://localhost:5432/test</url>
+		<username>anotherglass</username>
+		<password>anotherglass</password>
 	</database>
 	<database>
 		<mode>prod</mode>
 		<driver>org.postgresql.Driver</driver>
-		<url>jdbc:postgresql://localhost:8088/postgres</url>
-		<username>username</username>
-		<password>password</password>
+		<url>jdbc:postgresql://localhost:5432/prod</url>
+		<username>anotherglass</username>
+		<password>anotherglass</password>
 	</database>
 	<wineApi>
 		<url>http://services.wine.com/api/beta2/service.svc/json/</url>

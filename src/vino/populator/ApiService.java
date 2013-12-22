@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-import vino.config.Configuration;
+import vino.Configuration;
 import vino.http.HttpException;
 import vino.http.HttpHelper;
 

@@ -29,9 +29,29 @@
         	<include name="*.jar"/>
         </fileset>
     </path>
+    <path id="instrument.classpath">
+    	<pathelement location="${DIST.CLASSES}" />
+	<fileset dir="${LIB.LOCAL}">
+		<include name="*.zip"/>
+		<include name="*.jar"/>
+	</fileset>
+        <fileset dir="${LIB}">
+	       <include name="*.zip"/>
+        	<include name="*.jar"/>
+        </fileset>
+    </path>    
+    
+    
+    <target name="instrument">
+        <java classname="org.javalite.instrumentation.Main">
+            <sysproperty key="outputDirectory" value="${DIST.CLASSES}"/>
+            <classpath refid="instrument.classpath" />
+        </java>
+        <copy file="${DIST.CLASSES}/activejdbc_models.properties" tofile="${SRC}/activejdbc_models.properties"/>
+    </target>    
     
     <!-- Build targets -->
-    <target name="build" description="Build project" depends="clean,compile,package"/>
+    <target name="build" description="Build project" depends="clean,compile,instrument,package"/>
     
     <!-- Worker targets -->
     <target name="clean" description="Clean project">

@@ -3,8 +3,12 @@ package vino.job;
 import java.util.Date;
 
 import org.apache.log4j.Logger;
+import org.javalite.activejdbc.Base;
+import org.javalite.activejdbc.LazyList;
 
 import vino.job.Job;
+import vino.populator.ApiService;
+import vino.populator.Wine;
 import vino.utils.DateUtils;
 
 public class WinePopulatorJob implements Job {
@@ -44,7 +48,68 @@ public class WinePopulatorJob implements Job {
 		log.info("Starting thread, " + getJobName());
 		runDate = new Date().getTime();
         while (running) {
-        	//TODO update logic to populate tables
+        	
+        	Base.open("org.postgresql.Driver", "jdbc:postgresql://localhost:5432/dev", "anotherglass", "anotherglass");
+        	
+        	for(Wine each : ApiService.fetch()) {
+        		vino.model.Wine wine = new vino.model.Wine();        		
+    			wine.setName(each.getName());
+    			wine.setWinesComId(each.getId());
+    			wine.setDescription(each.getDescription());
+    			wine.setType(each.getType());
+    			wine.setVintage(each.getVintage());
+    			
+    			if (each.getAppellation() != null) {
+	    			LazyList<vino.model.Appellation> appellationList = vino.model.Appellation.find("wines_com_id = ?", each.getAppellation().getId());
+	    			if (appellationList != null && appellationList.size() >= 1) {
+	    				wine.setAppellation(appellationList.get(0));
+	    			}
+	    			else {
+	    				vino.model.Appellation appellation = new vino.model.Appellation();
+	    				appellation.setWinesComId(each.getAppellation().getId());
+	    				appellation.setName(each.getAppellation().getName());
+	    				
+	        			if (each.getAppellation().getRegion() != null) {
+	    	    			LazyList<vino.model.Region> regionList = vino.model.Region.find("wines_com_id = ?", each.getAppellation().getRegion().getId());
+	    	    			if (regionList != null && regionList.size() >= 1) {
+	    	    				appellation.setRegion(regionList.get(0));	    	    				
+	    	    			}
+	    	    			else {
+	    	    				vino.model.Region region = new vino.model.Region();
+	    	    				region.setWinesComId(each.getAppellation().getRegion().getId());
+	    	    				region.setName(each.getAppellation().getRegion().getName());
+	    	    				region.save();
+	    	    				appellation.setRegion(region);
+	    	    			}
+	        			}
+	        			
+	        			appellation.save();
+	        			
+	        			wine.setAppellation(appellation);
+	        			wine.setRegion(appellation.getRegion());
+	    			}
+    			}
+    			
+    			if (each.getVineyard() != null) {
+	    			LazyList<vino.model.Vineyard> vineyardList = vino.model.Vineyard.find("wines_com_id = ?", each.getVineyard().getId());
+	    			if (vineyardList != null && vineyardList.size() >= 1) {
+	    				wine.setVineyard(vineyardList.get(0));
+	    			}
+	    			else {
+	    				vino.model.Vineyard vineyard = new vino.model.Vineyard();
+	    				vineyard.setWinesComId(each.getVineyard().getId());
+	    				vineyard.setName(each.getVineyard().getName());
+	    				vineyard.setAppellation(wine.getAppellation());
+	    				vineyard.save();
+	    				wine.setVineyard(vineyard);
+	    			}
+    			}
+    			
+        		wine.save();
+        	}
+        	
+        	Base.close();
+        	
 			stop();
 			stopDate = new Date().getTime();
         }     
@@ -52,7 +117,7 @@ public class WinePopulatorJob implements Job {
 	
 	@Override
 	public String getJobServletUrl() {
-		return "/admin/fetch";
+		return "/admin/populate";
 	} 	
 
 	@Override

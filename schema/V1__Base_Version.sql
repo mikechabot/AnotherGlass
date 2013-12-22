@@ -1,4 +1,4 @@
-create table wines (id serial unique, created_at timestamp, updated_at timestamp, wines_com_id bigint, name varchar(256), description varchar(5000), type varchar(128), vintage varchar(256), region_id bigint, appellation_id bigint, vineyard_id bigint);
-create table regions (id serial unique, created_at timestamp, updated_at timestamp, wines_com_id bigint, name varchar(256), area varchar(256));
-create table vineyards (id serial unique, created_at timestamp, updated_at timestamp, wines_com_id bigint, name varchar(256), image_url varchar(512), appellation_id bigint);
-create table appellations (id serial unique, created_at timestamp, updated_at timestamp, wines_com_id bigint, name varchar(256), region_id bigint);
+create table wines (id serial unique, created_at timestamp, updated_at timestamp, wines_com_id bigint, name varchar(256), description varchar(5000), type varchar(128), vintage varchar(256), region_id bigint, appellation_id bigint, vineyard_id bigint, constraint wines_pkey primary key (id), constraint wines_id_key unique (id));
+create table regions (id serial unique, created_at timestamp, updated_at timestamp, wines_com_id bigint, name varchar(256), area varchar(256), constraint regions_pkey primary key (id), constraint regions_id_key unique (id));
+create table vineyards (id serial unique, created_at timestamp, updated_at timestamp, wines_com_id bigint, name varchar(256), image_url varchar(512), appellation_id bigint, constraint vineyards_pkey primary key (id), constraint vineyards_id_key unique (id));
+create table appellations (id serial unique, created_at timestamp, updated_at timestamp, wines_com_id bigint, name varchar(256), region_id bigint, constraint appellations_pkey primary key (id), constraint appellations_id_key unique (id));

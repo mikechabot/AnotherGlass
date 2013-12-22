@@ -1,7 +1,27 @@
 package vino.model;
 
-public class Wine extends VinoModel {
+import java.util.Date;
+
+import org.javalite.activejdbc.Model;
+
+public class Wine extends Model {
+
+	public Date getCreated() {
+		return (Date) get("created_at");
+	}
 	
+	public void setCreated(Date created) {
+		set("created_at", created);
+	}
+	
+	public Date getUpdated() {
+		return (Date) get("updated_at");
+	}
+	
+	public void setUpdated(Date updated) {
+		set("updated_at", updated);
+	}
+
 	public String getName() {
 		return (String) get("name");
 	}
@@ -22,7 +42,7 @@ public class Wine extends VinoModel {
 		return (String) get("description");
 	}
 	
-	public void setDesription(String description) {
+	public void setDescription(String description) {
 		set("description", description);
 	}
 	

@@ -1,12 +1,16 @@
 package vino.database;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
+
 import org.apache.log4j.Logger;
+import org.javalite.activejdbc.Base;
+
+import com.mchange.v2.c3p0.ComboPooledDataSource;
 
 import vino.Configuration;
 import vino.Configuration.DatabaseConfiguration;
@@ -14,46 +18,48 @@ import vino.Configuration.DatabaseConfiguration;
 public class Database {
 	
 	private static Logger log = Logger.getLogger(Database.class);
+		
+	private static ComboPooledDataSource dataSource;
 	
-	private DatabaseConfiguration databaseConfiguration;
-	private Connection connection;
-	
-	public Database() {
+	static {
 		Configuration config = Configuration.getInstance();
-		databaseConfiguration = config.getDatabase();
-
-		try {
-			Class.forName(databaseConfiguration.getDriver());
+		DatabaseConfiguration databaseConfiguration = config.getDatabase();
+		
+		try {	
+			System.setProperty(Context.INITIAL_CONTEXT_FACTORY, "org.apache.naming.java.javaURLContextFactory");
+            System.setProperty(Context.URL_PKG_PREFIXES, "org.apache.naming");
+            InitialContext ic = new InitialContext();
+            ic.createSubcontext("jdbc");
+            
+			dataSource = new ComboPooledDataSource();
+			dataSource.setDriverClass(databaseConfiguration.getDriver());
+			dataSource.setJdbcUrl(databaseConfiguration.getUrl());
+			dataSource.setUser(databaseConfiguration.getUsername());
+			dataSource.setPassword(databaseConfiguration.getPassword());
+			
+			ic.bind("jdbc/datasource", dataSource);
 		}
-		catch (ClassNotFoundException e) {
-			log.error("Unable to locate Postgres driver", e);
+		catch (Exception e) {
+			log.error("Unable to initalize datasource", e);
 		}
-	}
+	} 
 	
+	public Database() {}
+		
 	public void open() throws SQLException {
-		if (connection != null) throw new SQLException("A connection has already been opened!!!");
-		connection = DriverManager.getConnection(databaseConfiguration.getUrl(), databaseConfiguration.getUsername(), databaseConfiguration.getPassword());		
+		Base.open("jdbc/datasource");
 	}
 	
 	public Statement getStatement() throws SQLException {
-		if (connection == null) throw new SQLException("A connection has not been opened!!!");
-		return connection.createStatement();
+		return Base.connection().createStatement();
 	}
 	
 	public PreparedStatement getPreparedStatement(String sql) throws SQLException {
-		if (connection == null) throw new SQLException("A connection has not been opened!!!");
-		return connection.prepareStatement(sql);
+		return Base.connection().prepareStatement(sql);
 	}
 	
 	public void close() {
-		if (connection !=  null) {
-			try {				
-				connection.close();
-			}
-			catch (SQLException e) {
-				// do nothing
-			}
-		}
+		Base.close();
 	}
 	
 }

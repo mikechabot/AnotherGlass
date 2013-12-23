@@ -5,8 +5,7 @@
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:import url="/WEB-INF/views/header.jsp"/>
 <c:import url="/WEB-INF/views/navigation.jsp"/>
-<c:set var="results" value="${query.results}"/>  
-  
+
    	<!-- Body -->
    	<div id="container-index" class="container">
 	    <div class="container">
@@ -29,20 +28,20 @@
 						<thead>
 						<tr>
 						<c:choose>
-							<c:when test="${empty query.type}">
-								<th class="active-toggle border-right"><a href="/search?q=${query.query}">Wines</a></th>
-								<th class="border-right"><a href="/search?q=${query.query}&type=vineyards">Vineyards</a></th>
-								<th><a href="/search?q=${query.query}&type=regions">Regions</a></th>
+							<c:when test="${empty type}">
+								<th class="active-toggle border-right"><a href="/search?q=${query}">Wines</a></th>
+								<th class="border-right"><a href="/search?q=${query}&type=vineyards">Vineyards</a></th>
+								<th><a href="/search?q=${query}&type=regions">Regions</a></th>
 							</c:when>
-							<c:when test="${query.type == 'vineyards'}">
-								<th class="border-right"><a href="/search?q=${query.query}">Wines</a></th>
-								<th class="active-toggle border-right"><a href="/search?q=${query.query}&type=vineyards">Vineyards</a></th>
-								<th><a href="/search?q=${query.query}&type=regions">Regions</a></th>
+							<c:when test="${type == 'vineyards'}">
+								<th class="border-right"><a href="/search?q=${query}">Wines</a></th>
+								<th class="active-toggle border-right"><a href="/search?q=${query}&type=vineyards">Vineyards</a></th>
+								<th><a href="/search?q=${query}&type=regions">Regions</a></th>
 							</c:when>
-							<c:when test="${query.type == 'regions'}">
-								<th class="border-right"><a href="/search?q=${query.query}">Wines</a></th>
-								<th class="border-right"><a href="/search?q=${query.query}&type=vineyards">Vineyards</a></th>
-								<th class="active-toggle"><a href="/search?q=${query.query}&type=regions">Regions</a></th>
+							<c:when test="${type == 'regions'}">
+								<th class="border-right"><a href="/search?q=${query}">Wines</a></th>
+								<th class="border-right"><a href="/search?q=${query}&type=vineyards">Vineyards</a></th>
+								<th class="active-toggle"><a href="/search?q=${query}&type=regions">Regions</a></th>
 							</c:when>
 						</c:choose>
 						</tr>
@@ -54,7 +53,7 @@
 					<c:choose>
 						<c:when test="${fn:length(results) > 0}">
 							<c:choose>
-							<c:when test="${empty query.type}">
+							<c:when test="${empty type}">
 								<table id="results" class="tablesorter table">
 								<thead>
 								<tr>
@@ -67,9 +66,8 @@
 					     		</thead>
 					     		<tbody>
 							    <c:forEach  var="wine" items="${results}">
-									<c:if test="${not empty wine}">
 									<tr>
-									<td><a href="${wine.url}">${wine.name}</a></td>
+									<td>${wine.name}</td>
 									<td><c:out value="${wine.vineyard.name}">Unknown</c:out></td>
 									<td><c:out value="${wine.appellation.name}">Unknown</c:out></td>
 									<td><c:out value="${wine.appellation.region.name}">Unknown</c:out></td>
@@ -79,12 +77,11 @@
 										</button>
 									</td>
 									</tr>
-									</c:if>
 								</c:forEach>
 							 	</tbody>
 							</table>
 							</c:when>
-							<c:when test="${query.type == 'vineyards'}">
+							<c:when test="${type == 'vineyards'}">
 								<table id="results" class="tablesorter table">
 								<thead>
 								<tr>					     			
@@ -95,9 +92,8 @@
 					     		</thead>
 					     		<tbody>
 							    <c:forEach  var="vineyard" items="${results}">
-									<c:if test="${not empty vineyard}">
 									<tr>
-									<td><a href="${vineyard.url}">${vineyard.name}</a></td>
+									<td>${vineyard.name}</td>
 									<td><c:out value="${vineyard.appellation.name}">Unknown</c:out></td>
 									<td>
 										<button type="button" class="btn btn-default btn-xs">
@@ -105,12 +101,11 @@
 										</button>
 									</td>
 									</tr>
-									</c:if>
 								</c:forEach>
 							 	</tbody>
 							</table>
 							</c:when>
-							<c:when test="${query.type == 'regions'}">
+							<c:when test="${type == 'regions'}">
 								<table id="results" class="tablesorter table">
 								<thead>
 								<tr>					     			
@@ -122,18 +117,16 @@
 					     		</thead>
 					     		<tbody>
 							    <c:forEach  var="appellation" items="${results}">
-									<c:if test="${not empty appellation}">
 									<tr>
-									<td><a href="${appellation.region.url}">${appellation.name}</a></td>
+									<td>${appellation.name}</td>
 									<td>${appellation.region.name}</td>
-									<td>${appellation.wineCount}</td>
+									<td>appellation.wineCount</td>
 									<td>
 										<button type="button" class="btn btn-default btn-xs">
 	 											<span class="glyphicon glyphicon-star"></span>
 										</button>
 									</td>
 									</tr>
-									</c:if>
 								</c:forEach>
 							 	</tbody>
 							</table>
@@ -149,22 +142,22 @@
 								 	<table id="no-results" class="table">
 								 		<tr>
 								 		<c:choose>
-											<c:when test="${empty query.type}">
+											<c:when test="${empty type}">
 												<th colspan="2">Wine Search</th>
 											</c:when>
-											<c:when test="${query.type == 'vineyards'}">
+											<c:when test="${type == 'vineyards'}">
 												<th colspan="2">Vineyard Search</th>
 											</c:when>
-											<c:when test="${query.type == 'regions'}">
+											<c:when test="${type == 'regions'}">
 												<th colspan="2">Region Search</th>
 											</c:when>
 										</c:choose>
 								 		</tr>
 										<c:choose>								 		
-									 		<c:when test="${not empty query.query}">
+									 		<c:when test="${not empty query}">
 									 		<tr>
 									 			<td><span class="glyphicon glyphicon-search big-icon text-muted"></span></td>
-									 			<td>Sorry, no results found for "${query.query}"</td>
+									 			<td>Sorry, no results found for "${query}"</td>
 									 		</tr>
 									 		</c:when>
 									 		<c:otherwise>
@@ -173,10 +166,10 @@
 									 			<td>
 												<form role="form" action="/search" method="get">
 										 		<c:choose>
-													<c:when test="${query.type == 'vineyards'}">
+													<c:when test="${type == 'vineyards'}">
 														<input type="hidden" name="type" value="vineyards">
 													</c:when>
-													<c:when test="${query.type == 'regions'}">
+													<c:when test="${type == 'regions'}">
 														<input type="hidden" name="type" value="regions">
 													</c:when>
 												</c:choose>

@@ -1,18 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-         version="2.5"
-         metadata-complete="true">       
-  <listener>
-    <listener-class>vino.Bootstrap</listener-class>
-  </listener>
-  <filter>
-     <filter-name>ShiroFilter</filter-name>
-     <filter-class>org.apache.shiro.web.servlet.IniShiroFilter</filter-class>
-    <init-param>
-    	<param-name>config</param-name>
-    	<param-value>
+<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5" metadata-complete="true">
+	<listener>
+		<listener-class>vino.Bootstrap</listener-class>
+	</listener>
+	<filter>
+		<filter-name>activeJdbcFilter</filter-name>
+		<filter-class>org.javalite.activejdbc.web.ActiveJdbcFilter</filter-class>
+		<init-param>
+			<param-name>jndiName</param-name>
+			<param-value>jdbc/datasource</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>activeJdbcFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>	
+	<filter>
+		<filter-name>ShiroFilter</filter-name>
+		<filter-class>org.apache.shiro.web.servlet.IniShiroFilter</filter-class>
+		<init-param>
+			<param-name>config</param-name>
+			<param-value>
 		[main]
 		shiro.loginUrl = /login.jsp
 		authc.failureKeyAttribute=loginFailure
@@ -33,38 +43,38 @@
 		/admin/** = authc, roles["admin"]
 		/logout = logout
    		</param-value>
-    </init-param>
- </filter> 
- <filter-mapping>
-      <filter-name>ShiroFilter</filter-name>
-      <url-pattern>/*</url-pattern>
- </filter-mapping>
-   <error-page>
-    <error-code>404</error-code>
-    <location>/404.jsp</location>
-  </error-page>
-  <error-page>    
-    <error-code>403</error-code>
-    <location>/403.jsp</location>
-  </error-page>
-  <error-page>    
-    <error-code>500</error-code>
-    <location>/500.jsp</location>
-  </error-page>
-  <servlet>
-    <servlet-name>SearchController</servlet-name>
-    <servlet-class>vino.controller.SearchController</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>AdminController</servlet-name>
-    <servlet-class>vino.controller.AdminController</servlet-class>
-  </servlet>  
-  <servlet-mapping>
-    <servlet-name>SearchController</servlet-name>
-    <url-pattern>/search/*</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>AdminController</servlet-name>
-    <url-pattern>/admin/*</url-pattern>
-  </servlet-mapping>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>ShiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>403</error-code>
+		<location>/403.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/500.jsp</location>
+	</error-page>
+	<servlet>
+		<servlet-name>SearchController</servlet-name>
+		<servlet-class>vino.controller.SearchController</servlet-class>
+	</servlet>
+	<servlet>
+		<servlet-name>AdminController</servlet-name>
+		<servlet-class>vino.controller.AdminController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchController</servlet-name>
+		<url-pattern>/search/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AdminController</servlet-name>
+		<url-pattern>/admin/*</url-pattern>
+	</servlet-mapping>
 </web-app>

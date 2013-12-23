@@ -20,10 +20,10 @@
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" action="/search" method="get">
 			<c:choose>
-				<c:when test="${query.type == 'vineyards'}">
+				<c:when test="${type == 'vineyards'}">
 					<input type="hidden" name="type" value="vineyards">
 				</c:when>
-				<c:when test="${query.type == 'regions'}">
+				<c:when test="${type == 'regions'}">
 					<input type="hidden" name="type" value="regions">
 				</c:when>
 			</c:choose>

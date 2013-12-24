@@ -14,7 +14,7 @@ public class AdminController extends Controller {
 	JobManager manager = JobManager.getInstance();
 
 	@Override
-	protected String basePath() { return ""; }	
+	protected String basePath() { return "admin"; }	
 	
 	@Override
 	protected void initActions() {
@@ -31,7 +31,7 @@ public class AdminController extends Controller {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 			request.setAttribute("jobs", manager.getJobs());
 			request.setAttribute("running", manager.getRunningJobCount());
-			return basePath() + "admin/index.jsp";
+			return basePath() + "/index.jsp";
 		}		
 	}
 	

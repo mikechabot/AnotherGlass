@@ -5,11 +5,14 @@ import java.util.Date;
 import org.apache.log4j.Logger;
 import org.javalite.activejdbc.Base;
 import org.javalite.activejdbc.LazyList;
+import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.format.PeriodFormatter;
+import org.joda.time.format.PeriodFormatterBuilder;
 
 import vino.job.Job;
 import vino.populator.ApiService;
 import vino.populator.Wine;
-import vino.utils.DateUtils;
 
 public class WinePopulatorJob implements Job {
 	
@@ -137,15 +140,24 @@ public class WinePopulatorJob implements Job {
 
 	@Override
 	public String getLastRunDate() {
-		return runDate == 0 ? null : DateUtils.getFormattedDateFromLong(runDate);
+		return runDate == 0 ? null : new DateTime(runDate).toString("MM/dd/yyyy h:mm a");
 	}
 
 	@Override
 	public String getLastRunDuration() {
-		if(running) {
-		  return DateUtils.getFormattedSpecial((new Date().getTime()-runDate));
-		}
-		return DateUtils.getFormattedSpecial((stopDate-runDate));
+		DateTime start = new DateTime(runDate);
+		DateTime stop = (running) ? new DateTime() : new DateTime(stopDate);
+		
+		Period period = new Period(start, stop);
+
+		PeriodFormatter formatter = new PeriodFormatterBuilder()
+		    .appendSeconds().appendSuffix("s ")
+		    .appendMinutes().appendSuffix("m ")
+		    .appendHours().appendSuffix("h ")
+		    .printZeroNever()
+		    .toFormatter();
+
+		return formatter.print(period);		
 	}
 
 }

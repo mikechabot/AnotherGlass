@@ -31,6 +31,7 @@ public class Configuration {
     private static Configuration configuration;
 
     private String mode;
+    private String adminPassword;
     private List<DatabaseConfiguration> database;
     private WineApiConfiguration wineApi;
         
@@ -40,6 +41,10 @@ public class Configuration {
         }
         return configuration;
     }
+    
+    public String getAdminPassword() {
+		return adminPassword;
+	}
     
     public String getMode() {
 		return mode;

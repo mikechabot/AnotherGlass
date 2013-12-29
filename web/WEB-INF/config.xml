@@ -2,6 +2,7 @@
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:noNamespaceSchemaLocation="config.xsd">
 	<mode>dev</mode>
+	<adminPassword>admin</adminPassword>
 	<database>
 		<mode>dev</mode>
 		<driver>org.postgresql.Driver</driver>

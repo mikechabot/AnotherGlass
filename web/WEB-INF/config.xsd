@@ -18,6 +18,12 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>
+			<xs:element name="adminPassword" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>			
 			<xs:element name="database" type="databaseConfiguration"
 				nillable="false" minOccurs="3" maxOccurs="3" />
 			<xs:element name="wineApi" type="wineApiConfiguration"

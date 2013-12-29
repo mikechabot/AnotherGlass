@@ -43,7 +43,7 @@ h1 {
 	max-width: 700px;
 }
 
-#container-login {
+#container-login, #container-signup {
 	max-width: 400px;
 }
 

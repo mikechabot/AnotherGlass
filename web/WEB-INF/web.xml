@@ -5,6 +5,7 @@
 	<listener>
 		<listener-class>vino.Bootstrap</listener-class>
 	</listener>
+	<!--
 	<filter>
 		<filter-name>activeJdbcFilter</filter-name>
 		<filter-class>org.javalite.activejdbc.web.ActiveJdbcFilter</filter-class>
@@ -16,7 +17,8 @@
 	<filter-mapping>
 		<filter-name>activeJdbcFilter</filter-name>
 		<url-pattern>/*</url-pattern>
-	</filter-mapping>	
+	</filter-mapping>
+	-->	
 	<filter>
 		<filter-name>ShiroFilter</filter-name>
 		<filter-class>org.apache.shiro.web.servlet.IniShiroFilter</filter-class>
@@ -26,16 +28,13 @@
 		[main]
 		shiro.loginUrl = /login.jsp
 		authc.failureKeyAttribute=loginFailure
+		
+		vinoMatcher = vino.shiro.VinoCredentialsMatcher
+		vinoRealm = vino.shiro.VinoRealm
+		vinoRealm.credentialsMatcher = $vinoMatcher
 
-		[users]
-	    # format: username = password, role1, role2, ..., roleN
-		admin = admin, admin
-		user = user, user
-		
-		[roles]
-		admin = *
-		user = user:*
-		
+		securityManager.realms = $vinoRealm
+			
 		[urls]
 		# authc = super secure (no remember me sessions), user = less secure (remember me sessions allowed) 
 		/login.jsp = authc

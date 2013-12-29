@@ -4,28 +4,40 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <c:import url="/WEB-INF/views/header.jsp"/>
-<c:if test="${not empty errors}">
-<h2>Errors Found</h2>
-<ul>
-        <c:forEach var="each" items="${errors}">
-                <li>${each}</li>
-        </c:forEach>
-</ul>
-</c:if>
-<form method="POST" action="/user/create">
-        <fieldset>
-        <label>Username</label>
-        <input type="text" name="username" value="${username}" />
-        <br/>
-        <label>Password</label>
-        <input type="password" name="password_1" value="${password_1}" />
-        <br/>
-        <label>Password Again</label>
-        <input type="password" name="password_2" value="${password_2}" />
-        <br/>
-        <label>Email Address</label>
-        <input type="email" name="email" value="${email}" />
-        <input type="submit" value="Submit" />
-        </fieldset>
-</form>
+<c:import url="/WEB-INF/views/navigation.jsp"/>
+<div id="container-signup" class="container">
+	<c:if test="${not empty errors}">
+	<h2>Errors Found</h2>
+	<span class="text-danger error">
+	<ul>
+	        <c:forEach var="each" items="${errors}">
+	                <li>${each}</li>
+	        </c:forEach>
+	</ul>
+	</span>
+	</c:if>
+	<h2>Sign Up</h2>
+	<form role="form" name="signup" action="/user/create" method="post">
+		<div class="form-group">
+			<label for="username">Username</label>
+			<input type="text" class="form-control" name="username" placeholder="Username" value="${username}">
+		</div>
+		<div class="form-group">
+			<label for="password">Password</label>
+			<input type="password" class="form-control" name="password_1" placeholder="Password" value="${password_1}">
+		</div>
+		<div class="form-group">
+			<label for="password">Verify Password</label>
+			<input type="password" class="form-control" name="password_2" placeholder="Password">
+		</div>	
+		<div class="form-group">
+			<label for="email">E-mail</label>
+			<input type="email" class="form-control" name="email" placeholder="E-mail" value="${email}">
+		</div>	
+		<button type="submit" class="btn btn-default">Submit</button>
+	</form>
+	<c:if test="${not empty loginFailure}">
+ 	<p class="text-danger error">The credentials you entered were incorrect.</p>
+	</c:if>
+</div>
 <c:import url="/WEB-INF/views/footer.jsp"/>

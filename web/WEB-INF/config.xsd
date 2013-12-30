@@ -24,7 +24,15 @@
 					</xs:restriction>
 				</xs:simpleType>
 			</xs:element>			
+			<xs:element name="adminEmail" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
 			<xs:element name="database" type="databaseConfiguration"
+				nillable="false" minOccurs="3" maxOccurs="3" />
+			<xs:element name="emailServer" type="emailServerConfiguration"
 				nillable="false" minOccurs="3" maxOccurs="3" />
 			<xs:element name="wineApi" type="wineApiConfiguration"
 				minOccurs="1" maxOccurs="1" />
@@ -49,6 +57,30 @@
 			<xs:element name="username" type="xs:string" minOccurs="1"
 				maxOccurs="1" />
 			<xs:element name="password" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="emailServerConfiguration">
+		<xs:sequence>
+			<xs:element name="mode" minOccurs="1" maxOccurs="1">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="dev" />
+						<xs:enumeration value="test" />
+						<xs:enumeration value="prod" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name="address" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="port" type="xs:integer" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="ssl" type="xs:boolean" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="username" type="xs:string" minOccurs="0"
+				maxOccurs="1" />
+			<xs:element name="password" type="xs:string" minOccurs="0"
 				maxOccurs="1" />
 		</xs:sequence>
 	</xs:complexType>

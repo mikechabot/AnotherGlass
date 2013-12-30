@@ -12,6 +12,7 @@ import vino.Controller;
 import vino.Params;
 import vino.database.Database;
 import vino.model.User;
+import vino.utils.EmailUtils;
 
 public class UserController extends Controller {
 
@@ -107,6 +108,8 @@ public class UserController extends Controller {
 	                    user.save();
 	                    
 	                    log.debug("created a new user "+user.getUsername());
+	                    
+	            		EmailUtils.sendSimpleMessage(email, "Welcome to Another Glass", "Thanks for joining our wine community!");
 	                    
 	                    response.sendRedirect("/login.jsp");
 	                    return null;        

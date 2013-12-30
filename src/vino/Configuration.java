@@ -32,8 +32,10 @@ public class Configuration {
 
     private String mode;
     private String adminPassword;
+    private String adminEmail;
     private List<DatabaseConfiguration> database;
     private WineApiConfiguration wineApi;
+    private List<EmailServerConfiguration> emailServer;
         
     public static Configuration getInstance() {
         if (configuration == null) {        	
@@ -44,6 +46,10 @@ public class Configuration {
     
     public String getAdminPassword() {
 		return adminPassword;
+	}
+    
+    public String getAdminEmail() {
+		return adminEmail;
 	}
     
     public String getMode() {
@@ -61,6 +67,19 @@ public class Configuration {
 	
 	public List<DatabaseConfiguration> getDatabases() {
 		return database;
+	}
+	
+	public EmailServerConfiguration getEmailServer() {
+		if (emailServer != null) {
+			for(EmailServerConfiguration each : emailServer) {
+				if (each.getMode().equalsIgnoreCase(mode)) return each;
+			}
+		}
+		return null;
+	}
+	
+	public List<EmailServerConfiguration> getEmailServers() {
+		return emailServer;
 	}
 
 	public WineApiConfiguration getWineApi() {
@@ -164,6 +183,78 @@ public class Configuration {
 			return username;
 		}
 
+		public void setUsername(String username) {
+			this.username = username;
+		}
+
+		public String getPassword() {
+			return password;
+		}
+
+		public void setPassword(String password) {
+			this.password = password;
+		}
+    }
+
+    @XmlRootElement
+    @XmlAccessorType(XmlAccessType.FIELD)    
+    public static class EmailServerConfiguration {
+    	
+    	private String mode;
+    	private String address;
+    	private int port;
+    	private boolean ssl;
+    	private String username;
+    	private String password;
+    	
+    	@SuppressWarnings("unused")
+		private EmailServerConfiguration() {}
+    	
+    	public EmailServerConfiguration(String mode, String address, int port, boolean ssl, String username, String password) {
+    		this.mode = mode;
+    		this.address = address;
+    		this.port = port;
+    		this.ssl = ssl;
+    		this.username = username;
+    		this.password = password;
+    	}
+
+		public String getMode() {
+			return mode;
+		}
+
+		public void setMode(String mode) {
+			this.mode = mode;
+		}
+		
+		public String getAddress() {
+			return address;
+		}
+
+		public void setAddress(String address) {
+			this.address = address;
+		}
+
+		public int getPort() {
+			return port;
+		}
+
+		public void setPort(int port) {
+			this.port = port;
+		}
+
+		public boolean isSsl() {
+			return ssl;
+		}
+		
+		public void setSsl(boolean ssl) {
+			this.ssl = ssl;
+		}
+		
+		public String getUsername() {
+			return username;
+		}
+		
 		public void setUsername(String username) {
 			this.username = username;
 		}

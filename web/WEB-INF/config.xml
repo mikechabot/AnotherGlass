@@ -3,6 +3,7 @@
 	xsi:noNamespaceSchemaLocation="config.xsd">
 	<mode>dev</mode>
 	<adminPassword>admin</adminPassword>
+	<adminEmail>admin@vino.org</adminEmail>
 	<database>
 		<mode>dev</mode>
 		<driver>org.postgresql.Driver</driver>
@@ -24,6 +25,26 @@
 		<username>anotherglass</username>
 		<password>anotherglass</password>
 	</database>
+	<emailServer>
+		<mode>dev</mode>
+		<address>smtp.googlemail.com</address>
+		<port>465</port>
+		<ssl>true</ssl>
+		<username>will.clark@gmail.com</username>
+		<password>lbnimkqqnskmpoum</password>
+	</emailServer>
+	<emailServer>
+		<mode>test</mode>
+		<address>smtp-test.vino</address>
+		<port>25</port>
+		<ssl>false</ssl>
+	</emailServer>
+	<emailServer>
+		<mode>prod</mode>
+		<address>smtp.vino</address>
+		<port>25</port>
+		<ssl>false</ssl>
+	</emailServer>		
 	<wineApi>
 		<url>http://services.wine.com/api/beta2/service.svc/json/</url>
 		<key>b77c34d4cc093ccc98977db8e10c7e85</key>

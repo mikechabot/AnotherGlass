@@ -11,9 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+
 public abstract class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	
+	private static final Logger log = Logger.getLogger(Controller.class);
 	
 	private Action defaultAction;
 	private Map<String, Action> actions = new HashMap<String, Action>();
@@ -23,8 +27,7 @@ public abstract class Controller extends HttpServlet {
 		defaultAction = defaultAction();
 		if (defaultAction == null) throw new ServletException("A default action was not specified");
 		
-		System.out.println("Loaded Controller with Base Path of: /"+basePath());
-		
+		log.debug("Loaded Controller with Base Path of: /"+basePath());		
 	}
 	
 	protected abstract void initActions();

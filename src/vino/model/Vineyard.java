@@ -7,7 +7,7 @@ import org.javalite.activejdbc.Model;
 public class Vineyard extends Model {
 	
 	public Date getCreated() {
-		return (Date) get("created_at");
+		return getDate("created_at");
 	}
 	
 	public void setCreated(Date created) {
@@ -15,7 +15,7 @@ public class Vineyard extends Model {
 	}
 	
 	public Date getUpdated() {
-		return (Date) get("updated_at");
+		return getDate("updated_at");
 	}
 	
 	public void setUpdated(Date updated) {
@@ -23,7 +23,7 @@ public class Vineyard extends Model {
 	}
 	
 	public String getName() {
-		return (String) get("name");
+		return getString("name");
 	}
 	
 	public void setName(String name) {
@@ -31,7 +31,7 @@ public class Vineyard extends Model {
 	}
 	
 	public Long getWinesComId() {
-		return (Long) get("wines_com_id");
+		return getLong("wines_com_id");
 	}
 	
 	public void setWinesComId(long winesComId) {
@@ -39,7 +39,7 @@ public class Vineyard extends Model {
 	}
 		
 	public String getImageUrl() {
-		return (String) get("image_url");
+		return getString("image_url");
 	}
 	
 	public void setImageUrl(String image_url) {
@@ -47,11 +47,13 @@ public class Vineyard extends Model {
 	}
 
 	public Appellation getAppellation() {
-		return Appellation.findById(get("appellation_id"));
+		return parent(Appellation.class);
 	}
 	
 	public void setAppellation(Appellation appellation) {
-		set("appellation_id", appellation.getId());
+		if (appellation != null) {
+			set("appellation_id", appellation.getId());
+		}
 	}
 	
 	public String toString() {

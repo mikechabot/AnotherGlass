@@ -7,7 +7,7 @@ import org.javalite.activejdbc.Model;
 public class Appellation extends Model {
 
 	public Date getCreated() {
-		return (Date) get("created_at");
+		return getDate("created_at");
 	}
 	
 	public void setCreated(Date created) {
@@ -15,7 +15,7 @@ public class Appellation extends Model {
 	}
 	
 	public Date getUpdated() {
-		return (Date) get("updated_at");
+		return getDate("updated_at");
 	}
 	
 	public void setUpdated(Date updated) {
@@ -23,7 +23,7 @@ public class Appellation extends Model {
 	}
 
 	public String getName() {
-		return (String) get("name");
+		return getString("name");
 	}
 	
 	public void setName(String name) {
@@ -31,7 +31,7 @@ public class Appellation extends Model {
 	}
 	
 	public Long getWinesComId() {
-		return (Long) get("wines_com_id");
+		return getLong("wines_com_id");
 	}
 	
 	public void setWinesComId(long winesComId) {
@@ -39,11 +39,13 @@ public class Appellation extends Model {
 	}
 	
 	public Region getRegion() {
-		return Region.findById(get("region_id"));
+		return parent(Region.class);
 	}
 	
 	public void setRegion(Region region) {
-		set("region_id", region.getId());
+		if (region != null) {
+			set("region_id", region.getId());
+		}
 	}
 	
 	public String toString() {

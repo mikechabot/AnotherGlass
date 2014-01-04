@@ -11,7 +11,7 @@ import vino.utils.StringUtils;
 public class User extends Model {
 
 	public Date getCreated() {
-		return (Date) get("created_at");
+		return getDate("created_at");
 	}
 	
 	public void setCreated(Date created) {
@@ -19,7 +19,7 @@ public class User extends Model {
 	}
 	
 	public Date getUpdated() {
-		return (Date) get("updated_at");
+		return getDate("updated_at");
 	}
 	
 	public void setUpdated(Date updated) {
@@ -27,7 +27,7 @@ public class User extends Model {
 	}
 	
 	public boolean isActive() {
-		return ((Boolean) get("active")).booleanValue();
+		return getBoolean("active");
 	}
 	
 	public void setActive(boolean active) {
@@ -35,7 +35,7 @@ public class User extends Model {
 	}
 	
 	public String getUsername() {
-		return (String) get("username");
+		return getString("username");
 	}
 	
 	public void setUsername(String username) {
@@ -43,7 +43,7 @@ public class User extends Model {
 	}
 	
 	public String getEmail() {
-		return (String) get("email");
+		return getString("email");
 	}
 	
 	public void setEmail(String email) {
@@ -61,11 +61,11 @@ public class User extends Model {
      }	
     
     private String getPasswordSalt() {
-    	return (String) get("password_salt");
+    	return getString("password_salt");
     }
 
     private String getPasswordHash() {
-    	return (String) get("password_hash");
+    	return getString("password_hash");
     }
 
 	public boolean authenticate(String password) {
@@ -73,11 +73,11 @@ public class User extends Model {
     }
 	
 	public Date getResetExpiration() {
-		return (Date) get("reset_expiration");
+		return getDate("reset_expiration");
 	}
 	
 	public String getResetToken() {
-		return (String) get("reset_token");
+		return getString("reset_token");
 	}
 	
 	public void reset() {

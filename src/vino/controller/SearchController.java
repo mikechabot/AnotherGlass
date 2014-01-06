@@ -14,11 +14,11 @@ public class SearchController extends Controller {
 	private static final long serialVersionUID = 1L;
 
 	@Override
-	protected String basePath() { return ""; }	
+	protected String basePath() { return "search"; }	
 	
 	@Override
 	protected void initActions() {
-		addAction(null, new GetAction());
+		addAction("/", new GetAction());
 	}
 
 	@Override
@@ -26,16 +26,13 @@ public class SearchController extends Controller {
 		return new GetAction();
 	}
 	
-	public class GetAction implements Action {
+	public class GetAction extends Action {
+		
+		public boolean supportsPost() { return false; }
+		
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
             Params params = new Params(request);
-            
-            // No POST requests allowed
-            if (params.isPost()) {
-            	response.sendRedirect(basePath() + "/index.jsp");
-            	return null;
-            }
-            
+                        
             String q = params.getString("q");
             String type = params.getString("type");
         

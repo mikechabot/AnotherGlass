@@ -1,7 +1,10 @@
 package vino;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
@@ -21,55 +24,167 @@ public abstract class Controller extends HttpServlet {
 	
 	private Action defaultAction;
 	private Map<String, Action> actions = new HashMap<String, Action>();
+	
+	String pathInfo = null;
+	String route = null;
+	String view = null;
+	private List<String> routeParams = null;
+	private Action action = null;
 		
 	public void init(ServletConfig config) throws ServletException {
 		initActions();
 		defaultAction = defaultAction();
 		if (defaultAction == null) throw new ServletException("A default action was not specified");
 		
-		log.debug("Loaded Controller with Base Path of: /"+basePath());		
+		log.debug("Loaded Controller with Base Path of: /"+basePath());
 	}
 	
 	protected abstract void initActions();
 	protected abstract Action defaultAction();
 	protected abstract String basePath();
 		
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String action = request.getPathInfo();
-		String view = null;
+	protected void routeAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		pathInfo = request.getPathInfo();
+		routeParams = new ArrayList<String>(Arrays.asList(pathInfo.split("/")));
+				
+		log.debug("request = /"+basePath()+pathInfo+" ["+request.getMethod()+"]");
 			
 		try {
-			if (action == null || action.equals("") || action.equals("/")) {
-				view = defaultAction.execute(request, response);
-			}
-			else if (actions.get(action) == null) {
-				response.sendError(404);
+			if (pathInfo == null || pathInfo.equals("") || pathInfo.equals("/")) {
+				action = defaultAction;
 			}
 			else {
-				view = actions.get(action).execute(request, response);
+				action = actions.get(pathInfo);
+				if (action == null) {
+					/* I've coded for the following route options: 
+					 *
+					 *          /[:param1]
+					 *          /[:param1]/action
+					 *          /action/[:param1]
+					 *          /action/[:param1]/[:param2]
+					 *          /action/[:param1]/sub-action
+					*/				
+					for(String each : actions.keySet()) {
+						if (each.equals("/*") && routeParams.size()-1 == 1) {
+							route = each;
+							action = actions.get(each);
+							break;
+						}
+						else if (routeParams.size()-1 == 2 && each.equals("/*/"+routeParams.get(2))) {
+							routeParams.remove(2);
+							route = each;
+							action = actions.get(each);
+							break;						
+						}
+						else if (routeParams.size()-1 == 2 && each.equals("/"+routeParams.get(1)+"/*")) {
+							routeParams.remove(1);
+							route = each;
+							action = actions.get(each);
+							break;
+						}
+						else if (routeParams.size()-1 == 3 && each.equals("/"+routeParams.get(1)+"/*/*")) {
+							routeParams.remove(1);
+							route = each;
+							action = actions.get(each);
+							break;
+						}
+						else if (routeParams.size()-1 == 3 && each.equals("/"+routeParams.get(1)+"/*/"+routeParams.get(3))) {
+							routeParams.remove(1);
+							routeParams.remove(3);
+							route = each;
+							action = actions.get(each);
+							break;
+						}
+					}
+				}
 			}
+			
+			log.debug("route = "+route);
+			log.debug("routeParams = "+routeParams);
+			
+			if (action == null) {
+				response.sendError(404);
+				return;
+			}
+			
+			log.debug("action = "+action.getClass());
+
+			if ("GET".equals(request.getMethod()) && action.supportsGet() || "POST".equals(request.getMethod()) && action.supportsPost()) {
+				view = action.execute(request, response);					
+				if (view == null) {
+					log.debug("controller action returned null value for view");
+					response.sendError(500);
+					return;
+				}
+			}
+			else {
+				log.debug("controller action does not respond to "+request.getMethod()+" requests");
+				response.sendError(403);
+				return;
+			}
+			
+			log.debug("view = "+ view);
+			
 		}
 		catch (Exception e) {
 			throw new ServletException(e);
 		}
 		
 		if (view != null && !view.equals("")) {
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/"+view);
-			if (dispatcher == null) throw new ServletException("The view file (WEB-INF/views/"+view+") was not found!");			
-			dispatcher.forward(request, response);
+			if (view.startsWith("text:")) {
+				String text = view.substring("text:".length());
+				response.getOutputStream().println(text);
+			}
+			else {
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/"+view);
+				if (dispatcher == null) throw new ServletException("The view file (WEB-INF/views/"+view+") was not found!");			
+				dispatcher.forward(request, response);
+			}
 		}
 	}
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		routeAction(request, response);
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		routeAction(request, response);
 	}
 	
 	public void addAction(String path, Action action) {
 		actions.put(path, action);
 	}
 	
-	public interface Action {
-		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public String getPathInfo() {
+		return pathInfo;
+	}
+	
+	public String getRoute() {
+		return route;
+	}
+	
+	public String getView() {
+		return view;
+	}
+	
+	public String getRouteParameter(int i) {
+		if (routeParams != null && routeParams.size()-1 <= i) {
+			return routeParams.get(i);
+		}
+		return null;
+	}
+
+	public abstract class Action {
+
+		public boolean supportsGet() { 
+			return true;
+		}
+		
+		public boolean supportsPost() { 
+			return true;
+		}
+
+		public abstract String execute(HttpServletRequest request, HttpServletResponse response) throws Exception;		
 	}
 	
 }

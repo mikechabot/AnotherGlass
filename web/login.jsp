@@ -20,7 +20,7 @@
 			<label><input type="checkbox" name="rememberMe"> Remember me</label>
 		</div>
 		<button type="submit" class="btn btn-default">Login</button>
-		<button type="button" class="btn btn-default" onclick="window.location='/user/signup';">Sign up</button>
+		<button type="button" class="btn btn-default" onclick="window.location='/user/new';">Sign up</button>
 	</form>
 	<c:if test="${not empty loginFailure}">
  	<p class="text-danger error">The credentials you entered were incorrect.</p>

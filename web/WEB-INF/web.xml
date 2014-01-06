@@ -39,7 +39,7 @@
 		/login.jsp = authc
 		/search/** = user
 		/admin/** = authc, roles["admin"]
-		/user/signup = anon
+		/user/new = anon
 		/user/create = anon
 		/user/** = user
 		/logout = logout
@@ -66,24 +66,32 @@
 		<servlet-name>SearchController</servlet-name>
 		<servlet-class>vino.controller.SearchController</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchController</servlet-name>
+		<url-pattern>/search/*</url-pattern>
+	</servlet-mapping>	
 	<servlet>
 		<servlet-name>AdminController</servlet-name>
 		<servlet-class>vino.controller.AdminController</servlet-class>
 	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminController</servlet-name>
+		<url-pattern>/admin/*</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>UserController</servlet-name>
 		<servlet-class>vino.controller.UserController</servlet-class>
 	</servlet>	
 	<servlet-mapping>
-		<servlet-name>SearchController</servlet-name>
-		<url-pattern>/search/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
-		<servlet-name>AdminController</servlet-name>
-		<url-pattern>/admin/*</url-pattern>
-	</servlet-mapping>
-	<servlet-mapping>
 		<servlet-name>UserController</servlet-name>
 		<url-pattern>/user/*</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>WineController</servlet-name>
+		<servlet-class>vino.controller.WineController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>WineController</servlet-name>
+		<url-pattern>/wine/*</url-pattern>
 	</servlet-mapping>	
 </web-app>

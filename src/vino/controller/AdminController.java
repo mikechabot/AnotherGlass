@@ -18,7 +18,7 @@ public class AdminController extends Controller {
 	
 	@Override
 	protected void initActions() {
-		addAction(null, new GetJobInformation());
+		addAction("/", new GetJobInformation());
 		addAction("/populate", new RunWinePopulatorJob());
 	}
 
@@ -27,7 +27,7 @@ public class AdminController extends Controller {
 		return new GetJobInformation();
 	}
 	
-	public class GetJobInformation implements Action {
+	public class GetJobInformation extends Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {		
 			request.setAttribute("jobs", manager.getJobs());
 			request.setAttribute("running", manager.getRunningJobCount());
@@ -35,15 +35,14 @@ public class AdminController extends Controller {
 		}		
 	}
 	
-	public class RunWinePopulatorJob implements Action {
+	public class RunWinePopulatorJob extends Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 			// Start a fetch job if it's not already running
 			WinePopulatorJob job = WinePopulatorJob.getInstance();
 			if (!job.isRunning()) {
 				job.start();
 			}
-			response.sendRedirect("/admin");
-			return null;
+			return "redirect:/admin";
 		}		
 	}
 	

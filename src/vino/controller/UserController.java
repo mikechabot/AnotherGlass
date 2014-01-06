@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.subject.Subject;
 
 import vino.Controller;
 import vino.Params;
@@ -37,13 +39,32 @@ public class UserController extends Controller {
 	
 	public class Profile extends Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
-			return "text:Show current users profile";
+			Subject currentUser = SecurityUtils.getSubject();
+			if (currentUser == null) {
+				return "error:403"; // this condition should never happen
+			}
+			
+			String username = (String) currentUser.getPrincipal();
+			
+			User user = User.findFirst("username = ?", username);
+			if (user == null) {
+				return "error:404"; // this condition should never happen
+			}
+			
+			return "text:Show current users ["+username+"] profile, "+user;
 		}		
 	}
 	
 	public class View extends Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
-			return "text:Show users profile with name = "+getRouteParameter(1);
+			String username = getRouteParameter(1);
+			
+			User user = User.findFirst("username = ?", username);
+			if (user == null) {
+				return "error:404";
+			}
+			
+			return "text:Show users profile with name = "+username+", "+user;
 		}		
 	}
 	

@@ -15,5 +15,31 @@ public class StringUtils {
         }
         return sb.toString();
     }
+
+	public static long parseLong(String str) {		
+		long value = -1;
+		
+		try {
+			value = Long.parseLong(str);
+		}
+		catch (Exception e) {
+			// do nothing
+		}
+		
+		return value;
+	}
+	
+	public static int parseInt(String str) {
+		int value = -1;
+		
+		try {
+			value = Integer.parseInt(str);
+		}
+		catch (Exception e) {
+			// do nothing
+		}
+		
+		return value;
+	}
     
 }

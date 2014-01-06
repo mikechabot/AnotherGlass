@@ -17,6 +17,7 @@
 		<filter-name>activeJdbcFilter</filter-name>
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/user/*</url-pattern>
+		<url-pattern>/wine/*</url-pattern>		
 	</filter-mapping>
 	<filter>
 		<filter-name>ShiroFilter</filter-name>

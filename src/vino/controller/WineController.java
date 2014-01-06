@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import vino.Controller;
+import vino.model.Wine;
+import vino.utils.StringUtils;
 
 public class WineController extends Controller {
 
@@ -38,8 +40,20 @@ public class WineController extends Controller {
 	}
 	
 	public class View extends Action {				
-		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {						
-			return "text:Show wine where id = "+getRouteParameter(1);
+		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
+			long id = StringUtils.parseLong(getRouteParameter(1));
+			if (id < 0) {
+				return "error:404";
+			}
+			
+			Wine wine = Wine.findById(id);
+			if (wine == null) {
+				return "error:404";
+			}
+			
+			request.setAttribute("wine", wine);			
+
+			return "text:Show wine where id = "+getRouteParameter(1)+"\n"+wine;
 		}		
 	}
 	

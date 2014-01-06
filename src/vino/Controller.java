@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 
+import vino.utils.StringUtils;
+
 public abstract class Controller extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -28,7 +30,7 @@ public abstract class Controller extends HttpServlet {
 	String pathInfo = null;
 	String route = null;
 	String view = null;
-	private List<String> routeParams = null;
+	private List<String> routeParams = new ArrayList<String>(0);
 	private Action action = null;
 		
 	public void init(ServletConfig config) throws ServletException {
@@ -45,12 +47,17 @@ public abstract class Controller extends HttpServlet {
 		
 	protected void routeAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		pathInfo = request.getPathInfo();
-		routeParams = new ArrayList<String>(Arrays.asList(pathInfo.split("/")));
+		if (pathInfo != null && pathInfo.indexOf("/") > -1) {
+			routeParams.addAll(Arrays.asList(pathInfo.split("/")));
+		}
+		else {
+			pathInfo = "/";
+		}
 				
 		log.debug("request = /"+basePath()+pathInfo+" ["+request.getMethod()+"]");
 			
 		try {
-			if (pathInfo == null || pathInfo.equals("") || pathInfo.equals("/")) {
+			if (pathInfo.equals("/")) {
 				action = defaultAction;
 			}
 			else {
@@ -139,6 +146,10 @@ public abstract class Controller extends HttpServlet {
 				String redirect = view.substring("redirect:".length());
 				response.sendRedirect(redirect);
 			}
+			else if (view.startsWith("error:")) {
+				int error = StringUtils.parseInt(view.substring("error:".length()));
+				response.sendError(error);
+			}			
 			else {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/"+view);
 				if (dispatcher == null) throw new ServletException("The view file (WEB-INF/views/"+view+") was not found!");			

@@ -135,6 +135,10 @@ public abstract class Controller extends HttpServlet {
 				String text = view.substring("text:".length());
 				response.getOutputStream().println(text);
 			}
+			else if (view.startsWith("redirect:")) {
+				String redirect = view.substring("redirect:".length());
+				response.sendRedirect(redirect);
+			}
 			else {
 				RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/"+view);
 				if (dispatcher == null) throw new ServletException("The view file (WEB-INF/views/"+view+") was not found!");			

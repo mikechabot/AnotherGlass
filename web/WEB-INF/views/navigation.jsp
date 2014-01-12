@@ -16,6 +16,7 @@
 	        <li class="active"><a href="/">Home</a></li>
 	        <li><a href="#">The Cellar</a></li>
 	        <li><a href="#">Top Rated</a></li>
+	        <li><a href="/user">Profile</a></li>
 	      </ul>
         <div class="navbar-collapse collapse">
           <form class="navbar-form navbar-right" action="/search" method="get">

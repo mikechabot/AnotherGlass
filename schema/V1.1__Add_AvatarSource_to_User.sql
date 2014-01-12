@@ -1,0 +1,1 @@
+alter table users add column avatar_source varchar(32);

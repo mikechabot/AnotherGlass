@@ -51,7 +51,9 @@ public class UserController extends Controller {
 				return "error:404"; // this condition should never happen
 			}
 			
-			return "text:Show current users ["+username+"] profile, "+user;
+			request.setAttribute("user", user);
+			
+			return basePath() + "/profile.jsp";
 		}		
 	}
 	
@@ -143,5 +145,5 @@ public class UserController extends Controller {
 			return basePath() + "/form.jsp";
 		}
 	}
-	
+
 }

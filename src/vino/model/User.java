@@ -9,7 +9,29 @@ import org.joda.time.DateTime;
 import vino.utils.StringUtils;
 
 public class User extends Model {
+	
+	public enum AvatarSource {
+		GRAVATAR("gravatar"), LOCAL("local");
+		
+		private String mnemonic;
+		
+		private AvatarSource(String mnemonic) {
+			this.mnemonic = mnemonic;
+		}
+		
+		public String getMnemonic() {
+			return mnemonic;
+		}
 
+		public static AvatarSource lookup(String str) {
+			for(AvatarSource each : values()) {
+				if (each.mnemonic.equals(str)) return each;
+			}
+			return null;
+		}
+		
+	}
+	
 	public Date getCreated() {
 		return getDate("created_at");
 	}
@@ -78,6 +100,31 @@ public class User extends Model {
 	
 	public String getResetToken() {
 		return getString("reset_token");
+	}
+	
+	public void setAvatarSource(AvatarSource avatarSource) {
+		if (avatarSource != null) {
+			set("avatar_source", avatarSource.getMnemonic());
+		}
+	}
+		
+	public AvatarSource getAvatarSource() {
+		String str = getString("avatar_source");
+		if (str != null) {
+			AvatarSource avatarSource = AvatarSource.lookup(str);
+			if (avatarSource != null) {
+				return avatarSource;
+			}
+		}
+		return AvatarSource.GRAVATAR;
+	}
+	
+	public String getAvatarUrl() {
+		AvatarSource avatarSource = getAvatarSource();
+		switch (avatarSource) {
+			default:
+				return "http://www.gravatar.com/avatar/"+StringUtils.toMD5(getEmail())+"?d=identicon&s=220";
+		}
 	}
 	
 	public void reset() {

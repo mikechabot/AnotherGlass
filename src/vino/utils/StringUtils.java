@@ -1,5 +1,6 @@
 package vino.utils;
 
+import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -16,30 +17,56 @@ public class StringUtils {
         return sb.toString();
     }
 
-	public static long parseLong(String str) {		
-		long value = -1;
-		
+	public static int parseInt(String param) {
+		int result = 0;
 		try {
-			value = Long.parseLong(str);
+			result = Integer.parseInt(param);
 		}
 		catch (Exception e) {
 			// do nothing
 		}
-		
-		return value;
+		return result;
 	}
 	
-	public static int parseInt(String str) {
-		int value = -1;
-		
+	public static long parseLong(String param) {
+		long result = 0;
 		try {
-			value = Integer.parseInt(str);
+			result = Long.parseLong(param);
 		}
 		catch (Exception e) {
 			// do nothing
 		}
-		
-		return value;
+		return result;
+	}	
+	
+	public static double parseDouble(String param) {
+		double result = 0;
+		try {
+			result = Double.parseDouble(param);
+		}
+		catch (Exception e) {
+			// do nothing
+		}
+		return result;
 	}
-    
+
+	 public static String toHex(byte[] array) {
+	      StringBuilder sb = new StringBuilder();
+	      for(byte each : array) {
+	    	  sb.append(Integer.toHexString((each & 0xFF) | 0x100).substring(1,3));
+	      }
+	      return sb.toString();
+	  }
+	  
+	  public static String toMD5(String message) {
+	      try {
+	    	  MessageDigest md5 = MessageDigest.getInstance("MD5");
+	    	  return toHex(md5.digest(message.getBytes("CP1252")));
+	      }
+	      catch (Exception e) {
+	    	  // do nothing
+	      }
+	      
+	      return null;
+	  }
 }

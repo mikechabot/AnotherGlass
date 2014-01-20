@@ -3,6 +3,7 @@ package vino.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -12,9 +13,13 @@ import org.apache.shiro.subject.Subject;
 
 import vino.Controller;
 import vino.Params;
+import vino.model.AvatarSource;
 import vino.model.User;
+import vino.model.UserAvatar;
 import vino.utils.EmailUtils;
+import vino.utils.ImageUtils;
 
+@MultipartConfig(fileSizeThreshold=1024*1024, maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
 public class UserController extends Controller {
 
 	private static final long serialVersionUID = 1L;
@@ -30,6 +35,8 @@ public class UserController extends Controller {
 		addAction("/*", new View());
 		addAction("/new", new New());
 		addAction("/create", new Create());
+		addAction("/avatar-upload", new AvatarUpload());
+		addAction("/avatar-source/*", new ModifyAvatarSource());
 	}
 
 	@Override
@@ -145,5 +152,109 @@ public class UserController extends Controller {
 			return basePath() + "/form.jsp";
 		}
 	}
+	
+	public class AvatarUpload extends Action {
 
+		@Override
+		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
+			Params params = new Params(request);
+			
+			Subject currentUser = SecurityUtils.getSubject();
+			if (currentUser == null) {
+				return "error:403"; // this condition should never happen
+			}
+			
+			String username = (String) currentUser.getPrincipal();
+			
+			User user = User.findFirst("username = ?", username);
+			if (user == null) {
+				return "error:404"; // this condition should never happen
+			}
+			
+			List<String> errors = new ArrayList<String>(0);
+			
+			if (params.isPost()) {
+				String contentType = params.getFileUploadContentType("file");
+				log.debug("found a "+contentType+" file");
+				
+				String name = params.getFileUploadName("file");
+				log.debug("named "+name);
+				
+				byte[] file = params.getFileUploadBytes("file");				
+				if (file != null) log.debug("of "+file.length+" bytes in size");
+				
+				if (contentType != null && name != null && file != null) {					
+					if (name.endsWith(".jpg") || name.endsWith(".jpeg") || name.endsWith(".gif") || name.endsWith(".png")) {						
+						if (contentType.equalsIgnoreCase("image/jpeg") || contentType.equalsIgnoreCase("image/gif") || contentType.equalsIgnoreCase("image/png")) {
+							if (file.length >= 1 && file.length <= 2*1024*1024) {
+								byte[] data = ImageUtils.processUserUploadedAvatar(file);
+								if (data != null) {
+									UserAvatar userAvatar = UserAvatar.findFirst("user_id = ?", user.getId());
+									if (userAvatar == null) {									
+										userAvatar = new UserAvatar();
+									}
+									
+									userAvatar.setContentType("image/jpeg");
+									userAvatar.setData(data);
+									userAvatar.setUser(user);
+									userAvatar.save();
+									
+									user.setAvatarSource(AvatarSource.LOCAL);
+									user.setUserAvatar(userAvatar);
+									user.save();
+									
+									return "redirect:/user";
+								}
+								else {
+									errors.add("The file did not upload properly :|");
+								}
+							}
+							else {
+								errors.add("The file is too large. We only accept avatar images that are less than 2 MB.");
+							}
+						}
+						else {
+							errors.add("The file doesn't appear to be a JPEG, GIF, or PNG image");
+						}						
+					}
+					else {
+						errors.add("The file should be .jpg, .jpeg, .gif, or .png");
+					}					
+				}
+				else {
+					errors.add("The file did not upload properly :(");
+				}
+			}
+
+            request.setAttribute("errors", errors);
+			
+			return basePath() + "/avatar-upload.jsp";
+		}
+		
+	}
+
+	public class ModifyAvatarSource extends Action {
+
+		@Override
+		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
+			String avatarSource = getRouteParameter(1);
+			
+			Subject currentUser = SecurityUtils.getSubject();
+			if (currentUser == null) {
+				return "error:403"; // this condition should never happen
+			}
+			
+			String username = (String) currentUser.getPrincipal();
+			
+			User user = User.findFirst("username = ?", username);
+			if (user == null) {
+				return "error:404"; // this condition should never happen
+			}
+			
+			user.setAvatarSource(AvatarSource.lookup(avatarSource));
+			user.save();
+			
+			return "redirect:/user";
+		}
+	}
 }

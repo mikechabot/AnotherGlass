@@ -9,29 +9,7 @@ import org.joda.time.DateTime;
 import vino.utils.StringUtils;
 
 public class User extends Model {
-	
-	public enum AvatarSource {
-		GRAVATAR("gravatar"), LOCAL("local");
 		
-		private String mnemonic;
-		
-		private AvatarSource(String mnemonic) {
-			this.mnemonic = mnemonic;
-		}
-		
-		public String getMnemonic() {
-			return mnemonic;
-		}
-
-		public static AvatarSource lookup(String str) {
-			for(AvatarSource each : values()) {
-				if (each.mnemonic.equals(str)) return each;
-			}
-			return null;
-		}
-		
-	}
-	
 	public Date getCreated() {
 		return getDate("created_at");
 	}
@@ -119,13 +97,37 @@ public class User extends Model {
 		return AvatarSource.GRAVATAR;
 	}
 	
-	public String getAvatarUrl() {
-		AvatarSource avatarSource = getAvatarSource();
-		switch (avatarSource) {
-			default:
-				return "http://www.gravatar.com/avatar/"+StringUtils.toMD5(getEmail())+"?d=identicon&s=220";
+	public void setUserAvatar(UserAvatar userAvatar) {
+		if (userAvatar != null) {
+			set("useravatars_id", userAvatar.getId());
 		}
 	}
+	
+	public UserAvatar getUserAvatar() {
+		Long id = getLong("useravatars_id");
+		if (id != null) {
+			return UserAvatar.findById(id);
+		}
+		return null;
+	}
+	
+	public String getAvatarUrl() {
+		AvatarSource avatarSource = getAvatarSource();
+		if (AvatarSource.GRAVATAR == avatarSource) {
+			return getGravatarAvatarUrl();
+		}
+		else {
+			return getLocalAvatarUrl();
+		}
+	}
+	
+	public String getGravatarAvatarUrl() {
+		return "http://www.gravatar.com/avatar/"+StringUtils.toMD5(getEmail())+"?d=identicon&s=220";
+	}
+	
+	public String getLocalAvatarUrl() {
+		return "/avatar/"+getUsername()+".jpg";
+	}		
 	
 	public void reset() {
         set("reset_expiration", new DateTime().plusDays(1).toDate());

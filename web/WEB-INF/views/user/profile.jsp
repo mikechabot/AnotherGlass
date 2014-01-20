@@ -7,7 +7,23 @@
 <c:import url="/WEB-INF/views/navigation.jsp"/>
 <div class="container">
 	<div class="row">
-		<div class="col-md-4"><img src="${user.avatarUrl}" width="220" height="220" alt="avatar image" /></div>
+		<div class="col-md-4">
+			<img src="${user.avatarUrl}" width="220" height="220" alt="avatar image">
+			<div class="row">
+				<h1>Change Your Avatar</h1>
+				<div class="row">
+					<div class="col-sm-4"><img src="${user.gravatarAvatarUrl}" width="60" height="60" alt="Gravatar"></div>
+					<div class="col-sm-8"><a href="/user/avatar-source/gravatar">Gravatar</a></div>
+				</div>
+				<c:if test="${not empty user.userAvatar}">
+				<div class="row">
+					<div class="col-sm-4"><img src="${user.localAvatarUrl}" width="60" height="60" alt="Uploaded"></div>
+					<div class="col-sm-8"><a href="/user/avatar-source/local">Uploaded</a></div>
+				</div>
+				</c:if>
+				<button onclick="window.location='/user/avatar-upload'">Upload a new avatar</button>
+			</div>
+		</div>
 		<div class="col-md-8">
 			<h2>${user.username}</h2>
 			<hr/>

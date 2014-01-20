@@ -30,7 +30,7 @@ public abstract class Controller extends HttpServlet {
 	String pathInfo = null;
 	String route = null;
 	String view = null;
-	private List<String> routeParams = new ArrayList<String>(0);
+	private List<String> routeParams;
 	private Action action = null;
 		
 	public void init(ServletConfig config) throws ServletException {
@@ -47,6 +47,7 @@ public abstract class Controller extends HttpServlet {
 		
 	protected void routeAction(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		pathInfo = request.getPathInfo();
+		routeParams = new ArrayList<String>(0);
 		if (pathInfo != null && pathInfo.indexOf("/") > -1) {
 			routeParams.addAll(Arrays.asList(pathInfo.split("/")));
 		}
@@ -117,12 +118,7 @@ public abstract class Controller extends HttpServlet {
 			log.debug("action = "+action.getClass());
 
 			if ("GET".equals(request.getMethod()) && action.supportsGet() || "POST".equals(request.getMethod()) && action.supportsPost()) {
-				view = action.execute(request, response);					
-				if (view == null) {
-					log.debug("controller action returned null value for view");
-					response.sendError(500);
-					return;
-				}
+				view = action.execute(request, response);
 			}
 			else {
 				log.debug("controller action does not respond to "+request.getMethod()+" requests");

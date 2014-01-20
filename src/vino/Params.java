@@ -1,9 +1,13 @@
 package vino;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,9 +15,16 @@ import java.util.Map.Entry;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.Part;
+
+import org.apache.log4j.Logger;
+
+import vino.utils.StringUtils;
 
 public class Params {
 
+	private static final Logger log = Logger.getLogger(Params.class);
+	
 	private HttpServletRequest request;
 	private Map<String, String> map;
 
@@ -72,6 +83,107 @@ public class Params {
 		return null;
 	}
 
+	public byte[] getFileUploadBytes(String name) {
+		Part part = getFileUploadPart(name);
+		
+		if (part == null) {
+			return null;
+		}
+		
+		byte[] bytes = null;
+		InputStream is = null;
+		ByteArrayOutputStream baos = null;
+		
+		try {
+			is = part.getInputStream();
+			baos = new ByteArrayOutputStream();			
+
+			int read = 0;
+	        final byte[] buffer = new byte[1024];
+
+	        while ((read = is.read(buffer)) != -1) {
+	        	baos.write(buffer, 0, read);
+	        }
+	        
+	        bytes = baos.toByteArray();
+		}
+		catch (IOException e) {
+			// do nothing
+		}
+		finally {
+			if (baos != null) {
+				try {
+					baos.close();
+					baos = null;
+				}
+				catch(IOException e) {
+					// do nothing
+				}
+			}				
+			if (is != null) {
+				try {
+					is.close();
+					is = null;
+				}
+				catch(IOException e) {
+					// do nothing
+				}
+			}
+		}
+		
+		return bytes;
+	}
+	
+	public String getFileUploadName(String name) {
+		Part part = getFileUploadPart(name);
+		
+		if (part != null) {
+		    for (String content : part.getHeader("content-disposition").split(";")) {
+		        if (content.trim().startsWith("filename")) {
+		            return content.substring(content.indexOf('=') + 1).trim().replace("\"", "");
+		        }
+		    }
+		}
+		
+	    return null;
+	}
+	
+	public String getFileUploadContentType(String name) {
+		Part part = getFileUploadPart(name);
+		if (part != null) {
+			return part.getContentType();
+		}
+		return null;
+	}
+	
+	private Part getFileUploadPart(String name) {
+		int n = 0;
+		
+		try {
+			Collection<Part> parts = request.getParts();
+			n = parts.size();
+		}
+		catch (Exception e) {
+			log.debug("parsing request for parts failed", e);
+		}
+		
+		if (n == 0) {
+			log.debug("There were no parts in this request");
+			return null;
+		}
+		
+		Part part = null;
+		
+		try {
+			part = request.getPart(name);
+		}
+		catch (Exception e) {
+			log.debug("parsing request for part="+name+" failed", e);
+		}
+		
+		return part;
+	}
+	
 	public void setParam(String name, String value) {
 		map.put(name, value);
 	}
@@ -109,7 +221,7 @@ public class Params {
 	}
 
 	public long getLong(String param) {
-		return Params.parseLong(get(param));
+		return StringUtils.parseLong(get(param));
 	}
 
 	public long getLong(String param, long dft) {
@@ -120,7 +232,7 @@ public class Params {
 	}
 
 	public int getInt(String param) {
-		return Params.parseInt(get(param));
+		return StringUtils.parseInt(get(param));
 	}
 
 	public int getInt(String param, int dft) {
@@ -131,7 +243,7 @@ public class Params {
 	}
 
 	public double getDouble(String param) {
-		return Params.parseDouble(get(param));
+		return StringUtils.parseDouble(get(param));
 	}
 
 	public double getDouble(String param, double dft) {
@@ -211,39 +323,6 @@ public class Params {
 			}
 			map.put(key, value);
 		}
-	}
-	
-	public static int parseInt(String param) {
-		int result = 0;
-		try {
-			result = Integer.parseInt(param);
-		}
-		catch (Exception e) {
-			// do nothing
-		}
-		return result;
-	}
-	
-	public static long parseLong(String param) {
-		long result = 0;
-		try {
-			result = Long.parseLong(param);
-		}
-		catch (Exception e) {
-			// do nothing
-		}
-		return result;
-	}	
-	
-	public static double parseDouble(String param) {
-		double result = 0;
-		try {
-			result = Double.parseDouble(param);
-		}
-		catch (Exception e) {
-			// do nothing
-		}
-		return result;
 	}
 	
 }

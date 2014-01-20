@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-	version="2.5" metadata-complete="true">
+<web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" metadata-complete="false">
 	<listener>
 		<listener-class>vino.Bootstrap</listener-class>
 	</listener>
@@ -15,9 +13,10 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>activeJdbcFilter</filter-name>
+		<url-pattern>/avatar/*</url-pattern>
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/user/*</url-pattern>
-		<url-pattern>/wine/*</url-pattern>		
+		<url-pattern>/wine/*</url-pattern>	
 	</filter-mapping>
 	<filter>
 		<filter-name>ShiroFilter</filter-name>
@@ -38,6 +37,7 @@
 		[urls]
 		# authc = super secure (no remember me sessions), user = less secure (remember me sessions allowed) 
 		/login.jsp = authc
+		/avatar/** = user
 		/search/** = user
 		/admin/** = authc, roles["admin"]
 		/user/new = anon
@@ -63,6 +63,14 @@
 		<error-code>500</error-code>
 		<location>/500.jsp</location>
 	</error-page>
+	<servlet>
+		<servlet-name>AvatarController</servlet-name>
+		<servlet-class>vino.controller.AvatarController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AvatarController</servlet-name>
+		<url-pattern>/avatar/*</url-pattern>
+	</servlet-mapping>	
 	<servlet>
 		<servlet-name>SearchController</servlet-name>
 		<servlet-class>vino.controller.SearchController</servlet-class>

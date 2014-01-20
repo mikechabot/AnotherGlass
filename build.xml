@@ -61,7 +61,7 @@
     
     <target name="compile" description="Compile project">
         <mkdir dir="${DIST.CLASSES}" />
-        <javac destdir="${DIST.CLASSES}" debug="true" source="1.5" target="1.5">
+        <javac destdir="${DIST.CLASSES}" debug="true" source="1.7" target="1.7">
             <src path="${SRC}" />
             <classpath refid="project.classpath" />
         </javac>

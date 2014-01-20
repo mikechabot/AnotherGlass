@@ -1,0 +1,1 @@
+create table user_avatars (id serial unique, created_at timestamp, updated_at timestamp, user_id bigint, content_type varchar(256), data bytea, constraint useravatars_pkey primary key (id), constraint useravatars_id_key unique (id), constraint useravatars_user_id_key unique (user_id));

@@ -38,7 +38,7 @@
 		# authc = super secure (no remember me sessions), user = less secure (remember me sessions allowed) 
 		/login.jsp = authc
 		/avatar/** = user
-		/search/** = user
+		/search/** = anon
 		/admin/** = authc, roles["admin"]
 		/user/new = anon
 		/user/create = anon

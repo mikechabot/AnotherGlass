@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" class="landing-html">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AnotherGlass | Social wine drinking</title>
+
+    <!-- Fonts -->
+    <link href="http://fonts.googleapis.com/css?family=Cabin" rel="stylesheet" type="text/css">
+
+    <!-- Styles -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body class="landing-body">
+  	<a href="#bg1" class="bg" id="bg1">(1)</a>&nbsp;
+  	<a href="#bg2" class="bg" id="bg2">(2)</a>
+	<div class="container">
+      <h1 class="header-glass">AnotherGlass <small>coming soon...</small></h1>
+      <div class="row">
+        <div class="col-xs-12 col-md-7">
+        <ul class="details">
+          <li><span class="glyphicon glyphicon-glass h3"></span>&nbsp;&nbsp;<span class="h3">Social media's about to get a whole lot classier.</span></li>
+        </ul>
+        </div>
+      </div>
+      <div class="row row-buffer-lg">
+        <div class="col-xs-12 col-md-6">
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-5">
+              <input type="email" class="form-control" id="email" placeholder="Email">
+            </div>
+            <div class="col-md-2">
+              <button type="submit" class="btn btn-default">Subscribe</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row row-buffer-md">
+        <div class="col-xs-12 col-md-6">
+          <div class="form-group">
+            <div class="col-md-offset-2 col-md-12">
+              <span class="h5">Subscribe for more details</span>&nbsp;&nbsp;<span rel="tooltip" data-toggle="tooltip" class="email-tip glyphicon glyphicon-info-sign"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+	</div>
+    <!-- Scripts -->
+    <script src="js/jquery-1.10.2.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+    $(document).ready(function () {
+      $(".email-tip").tooltip({ title: "We hate spam too, which is why we promise to only send updates when it counts.", placement: "bottom", trigger: "hover"});
+    });
+    $(function() {
+        $(".bg").click(function(e) {
+          e.preventDefault(); 
+          var id = $(this).prop("id");
+          $(".landing-html").css('background', 'url(../img/' + id + '.jpg) 100% 100% no-repeat');
+        });
+    });
+    </script>
+      </body>
+</html>

@@ -10,9 +10,46 @@ body.strapless {
 	padding-top: 0px;
 }
 
-h1 {
-	font-family: Open Sans, Arial, sans serif;
+h1 small {
+  font-weight: 400;
+  line-height: 1;
+  color: #9F1D35;
+  font-variant: small-caps;
+  font-size: 65%;
 }
+
+html.landing-html {
+  min-height: 100%;
+  background: url('../img/bg1.jpg') 100% 100% no-repeat;
+  -webkit-background-size: cover;
+  background-size: cover;
+}
+
+
+body.landing-body {
+  color: #fff;
+  text-shadow: black 0.1em 0.1em 0.2em;
+  background: transparent;
+}
+
+.header-glass {
+  font-size: 52px;
+  margin-top: 75px;
+  font-family: Cabin, Verdana, Arial, sans-serif
+}
+
+.details {
+  list-style: none;
+}
+
+.row-buffer-lg {
+  margin-top: 20px;
+}
+
+.row-buffer-md {
+  margin-top: 10px;
+}
+
 
 .big-icon {
 	font-size: 28px;

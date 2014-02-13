@@ -102,10 +102,7 @@ public class Wine extends Model {
 		sb.append("winesComId=").append(getWinesComId()).append(",");
 		sb.append("description=").append(getDescription()).append(",");
 		sb.append("type=").append(getType()).append(",");
-		sb.append("vintage=").append(getVintage()).append(",");
-		sb.append("region=").append(getRegion()).append(",");
-		sb.append("appellation=").append(getAppellation()).append(",");
-		sb.append("vineyard=").append(getVineyard());
+		sb.append("vintage=").append(getVintage());
 		sb.append("]");
 		return sb.toString();
 	}

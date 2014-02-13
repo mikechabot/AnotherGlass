@@ -1,6 +1,7 @@
 package vino.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.javalite.activejdbc.Model;
 
@@ -46,9 +47,13 @@ public class Region extends Model {
 		set("area", area);
 	}
 
+	public List<Wine> getWines() {
+		return getAll(Wine.class);
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Appelation=[");
+		sb.append("Region=[");
 		sb.append("id=").append(getId()).append(",");
 		sb.append("created=").append(getCreated()).append(",");
 		sb.append("updated=").append(getUpdated()).append(",");

@@ -6,17 +6,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 
 import vino.Controller;
-import vino.model.Wine;
+import vino.model.Region;
 import vino.utils.StringUtils;
 
-public class WineController extends Controller {
+public class RegionController extends Controller {
 
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger log = Logger.getLogger(WineController.class);
+	private static final Logger log = Logger.getLogger(RegionController.class);
 	
 	@Override
-	protected String basePath() { return "wine"; }
+	protected String basePath() { return "region"; }
 	
 	@Override
 	protected void initActions() {
@@ -35,7 +35,7 @@ public class WineController extends Controller {
 	
 	public class Index extends Action {			
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {						
-			return "text:Show a list of Wines";
+			return "text:Show a list of Regions";
 		}		
 	}
 	
@@ -46,12 +46,12 @@ public class WineController extends Controller {
 				return "error:404";
 			}
 			
-			Wine wine = Wine.findById(id);
-			if (wine == null) {
+			Region region = Region.findById(id);
+			if (region == null) {
 				return "error:404";
 			}
 			
-			request.setAttribute("wine", wine);			
+			request.setAttribute("region", region);			
 
 			return basePath() + "/profile.jsp";
 		}		
@@ -59,25 +59,25 @@ public class WineController extends Controller {
 	
 	public class New extends Action {				
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {						
-			return "text:New wine";
+			return "text:New region";
 		}
 	}
 	
 	public class Create extends Action {				
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {						
-			return "text:Create wine";
+			return "text:Create region";
 		}
 	}
 	
 	public class Edit extends Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {						
-			return "text:Edit form for wine where the id = "+getRouteParameter(1);
+			return "text:Edit form for region where the id = "+getRouteParameter(1);
 		}
 	}
 	
 	public class Update extends Action {		
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {						
-			return "text:Update data for wine where the id = "+getRouteParameter(1);
+			return "text:Update data for region where the id = "+getRouteParameter(1);
 		}
 	}
 	
@@ -85,7 +85,7 @@ public class WineController extends Controller {
 		public boolean supportsGet() { return false; }
 		
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {						
-			return "text:Delete wine where the id = "+getRouteParameter(1);
+			return "text:Delete region where the id = "+getRouteParameter(1);
 		}
 	}
 	

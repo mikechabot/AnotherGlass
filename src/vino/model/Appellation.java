@@ -1,6 +1,7 @@
 package vino.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.javalite.activejdbc.Model;
 
@@ -46,6 +47,14 @@ public class Appellation extends Model {
 		if (region != null) {
 			set("region_id", region.getId());
 		}
+	}
+	
+	public long getWineCount() {
+		return Wine.count("appellation_id = ?", getId());
+	}
+	
+	public List<Wine> getWines() {
+		 return getAll(Wine.class);
 	}
 	
 	public String toString() {

@@ -1,6 +1,7 @@
 package vino.model;
 
 import java.util.Date;
+import java.util.List;
 
 import org.javalite.activejdbc.Model;
 
@@ -56,6 +57,10 @@ public class Vineyard extends Model {
 		}
 	}
 	
+	public List<Wine> getWines() {
+		return getAll(Wine.class);
+	}
+	
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("Vineyard=[");
@@ -64,8 +69,7 @@ public class Vineyard extends Model {
 		sb.append("updated=").append(getUpdated()).append(",");
 		sb.append("name=").append(getName()).append(",");
 		sb.append("winesComId=").append(getWinesComId()).append(",");
-		sb.append("image_url=").append(getImageUrl()).append(",");
-		sb.append("appellation=").append(getAppellation());
+		sb.append("image_url=").append(getImageUrl());
 		sb.append("]");
 		return sb.toString();
 	}

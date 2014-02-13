@@ -16,7 +16,10 @@
 		<url-pattern>/avatar/*</url-pattern>
 		<url-pattern>/search/*</url-pattern>
 		<url-pattern>/user/*</url-pattern>
-		<url-pattern>/wine/*</url-pattern>	
+		<url-pattern>/wine/*</url-pattern>
+		<url-pattern>/vineyard/*</url-pattern>
+		<url-pattern>/region/*</url-pattern>
+		<url-pattern>/appellation/*</url-pattern>
 	</filter-mapping>
 	<filter>
 		<filter-name>ShiroFilter</filter-name>
@@ -102,5 +105,29 @@
 	<servlet-mapping>
 		<servlet-name>WineController</servlet-name>
 		<url-pattern>/wine/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<servlet-name>VineyardController</servlet-name>
+		<servlet-class>vino.controller.VineyardController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VineyardController</servlet-name>
+		<url-pattern>/vineyard/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<servlet-name>RegionController</servlet-name>
+		<servlet-class>vino.controller.RegionController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RegionController</servlet-name>
+		<url-pattern>/region/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<servlet-name>AppellationController</servlet-name>
+		<servlet-class>vino.controller.AppellationController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AppellationController</servlet-name>
+		<url-pattern>/appellation/*</url-pattern>
 	</servlet-mapping>	
 </web-app>

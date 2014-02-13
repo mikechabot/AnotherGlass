@@ -67,10 +67,10 @@
 					     		<tbody>
 							    <c:forEach  var="wine" items="${results}">
 									<tr>
-									<td>${wine.name}</td>
-									<td><c:out value="${wine.vineyard.name}">Unknown</c:out></td>
-									<td><c:out value="${wine.appellation.name}">Unknown</c:out></td>
-									<td><c:out value="${wine.appellation.region.name}">Unknown</c:out></td>
+									<td><a href="/wine/${wine.id}">${wine.name}</a></td>
+									<td><a href="/vineyard/${wine.vineyard.id}"><c:out value="${wine.vineyard.name}">Unknown</c:out></a></td>
+									<td><a href="/appellation/${wine.appellation.id}"><c:out value="${wine.appellation.name}">Unknown</c:out></a></td>
+									<td><a href="/region/${wine.appellation.region.id}"><c:out value="${wine.appellation.region.name}">Unknown</c:out></a></td>
 									<td>
 										<button type="button" class="btn btn-default btn-xs">
 	 											<span class="glyphicon glyphicon-star"></span>
@@ -93,8 +93,8 @@
 					     		<tbody>
 							    <c:forEach  var="vineyard" items="${results}">
 									<tr>
-									<td>${vineyard.name}</td>
-									<td><c:out value="${vineyard.appellation.name}">Unknown</c:out></td>
+									<td><a href="/vineyard/${vineyard.id}">${vineyard.name}</a></td>
+									<td><a href="/appellation/${vineyard.appellation.id}"><c:out value="${vineyard.appellation.name}">Unknown</c:out></a></td>
 									<td>
 										<button type="button" class="btn btn-default btn-xs">
 	 											<span class="glyphicon glyphicon-star"></span>
@@ -118,9 +118,9 @@
 					     		<tbody>
 							    <c:forEach  var="appellation" items="${results}">
 									<tr>
-									<td>${appellation.name}</td>
-									<td>${appellation.region.name}</td>
-									<td>appellation.wineCount</td>
+									<td><a href="/appellation/${appellation.id}">${appellation.name}</a></td>
+									<td><a href="/region/${appellation.region.id}">${appellation.region.name}</a></td>
+									<td>${appellation.wineCount}</td>
 									<td>
 										<button type="button" class="btn btn-default btn-xs">
 	 											<span class="glyphicon glyphicon-star"></span>

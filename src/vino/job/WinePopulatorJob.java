@@ -10,6 +10,8 @@ import org.joda.time.Period;
 import org.joda.time.format.PeriodFormatter;
 import org.joda.time.format.PeriodFormatterBuilder;
 
+import vino.Configuration;
+import vino.Configuration.DatabaseConfiguration;
 import vino.job.Job;
 import vino.populator.ApiService;
 import vino.populator.Wine;
@@ -52,7 +54,9 @@ public class WinePopulatorJob implements Job {
 		runDate = new Date().getTime();
         while (running) {
         	
-        	Base.open("org.postgresql.Driver", "jdbc:postgresql://localhost:5432/dev", "anotherglass", "anotherglass");
+        	DatabaseConfiguration dbConfig = Configuration.getInstance().getDatabase();
+
+        	Base.open(dbConfig.getDriver(), dbConfig.getUrl(), dbConfig.getUsername(), dbConfig.getPassword());
         	
         	for(Wine each : ApiService.fetch()) {
         		vino.model.Wine wine = new vino.model.Wine();        		

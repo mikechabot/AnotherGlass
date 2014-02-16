@@ -65,6 +65,9 @@
             <src path="${SRC}" />
             <classpath refid="project.classpath" />
         </javac>
+        <copy todir="${DIST.CLASSES}/db/migration">
+            <fileset dir="${SRC}/db/migration" />
+        </copy>
         <copy todir="${DIST.CLASSES}" filtering="true">
             <fileset dir="${SRC}" includes="*.properties *.xml"/>
             <filterset>
@@ -85,7 +88,7 @@
         <war destfile="${DIST}/${DIST.PREFIX}.war" webxml="${WEB}/WEB-INF/web.xml">
             <fileset dir="${WEB}" excludes="WEB-INF/web.xml"/>
             <lib dir="${DIST}" includes="*.jar"/>
-            <classes dir="${DIST.CLASSES}" includes="*.properties *.xml" excludes="version.properties"/>
+            <classes dir="${DIST.CLASSES}" includes="*.properties *.xml *.sql" excludes="version.properties"/>
         </war>
         <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${DIST}/ROOT.war"/>
         <copy file="${DIST}/${DIST.PREFIX}.war" tofile="${DIST}/AnotherGlass.war"/>

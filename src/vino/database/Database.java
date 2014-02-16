@@ -6,6 +6,7 @@ import java.sql.Statement;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
 import org.apache.log4j.Logger;
 import org.javalite.activejdbc.Base;
@@ -19,7 +20,7 @@ public class Database {
 	
 	private static Logger log = Logger.getLogger(Database.class);
 		
-	private static ComboPooledDataSource dataSource;
+	private static DataSource dataSource;
 	
 	static {
 		Configuration config = Configuration.getInstance();
@@ -32,10 +33,10 @@ public class Database {
             ic.createSubcontext("jdbc");
             
 			dataSource = new ComboPooledDataSource();
-			dataSource.setDriverClass(databaseConfiguration.getDriver());
-			dataSource.setJdbcUrl(databaseConfiguration.getUrl());
-			dataSource.setUser(databaseConfiguration.getUsername());
-			dataSource.setPassword(databaseConfiguration.getPassword());
+			((ComboPooledDataSource) dataSource).setDriverClass(databaseConfiguration.getDriver());
+			((ComboPooledDataSource) dataSource).setJdbcUrl(databaseConfiguration.getUrl());
+			((ComboPooledDataSource) dataSource).setUser(databaseConfiguration.getUsername());
+			((ComboPooledDataSource) dataSource).setPassword(databaseConfiguration.getPassword());
 			
 			ic.bind("jdbc/datasource", dataSource);
 		}
@@ -45,9 +46,13 @@ public class Database {
 	} 
 	
 	public Database() {}
-		
+	
 	public void open() throws SQLException {
 		Base.open("jdbc/datasource");
+	}
+
+	public DataSource getDataSource() {
+		return dataSource;
 	}
 	
 	public Statement getStatement() throws SQLException {

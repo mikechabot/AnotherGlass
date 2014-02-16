@@ -10,6 +10,8 @@ import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
 
+import com.googlecode.flyway.core.Flyway;
+
 import vino.database.Database;
 import vino.job.JobManager;
 
@@ -33,10 +35,12 @@ public class Bootstrap implements ServletContextListener {
             log.info("Loaded config.xml "); 
 
             verifyDatabaseConnectivity();
+            runDatabaseMigrations();
             initJobsManager();            
         }
         catch (Exception e) {
             log.fatal("Could not start application", e);
+        	System.exit(1);
         }        
     }
     
@@ -67,6 +71,14 @@ public class Bootstrap implements ServletContextListener {
     			db.close();
     		}
     	}    	
+    }
+    
+    private void runDatabaseMigrations() {
+        Database db = new Database();
+        Flyway flyway = new Flyway();
+        flyway.setInitOnMigrate(true);
+        flyway.setDataSource(db.getDataSource());
+        flyway.migrate();
     }
     
     private void initJobsManager() {

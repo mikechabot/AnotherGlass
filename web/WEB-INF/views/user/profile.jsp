@@ -22,6 +22,7 @@
 				</div>
 				</c:if>
 				<button onclick="window.location='/user/avatar-upload'">Upload a new avatar</button>
+				<button onclick="window.location='/user/change-password'">Change password</button>
 			</div>
 		</div>
 		<div class="col-md-8">

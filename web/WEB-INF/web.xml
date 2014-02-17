@@ -45,6 +45,8 @@
 		/admin/** = authc, roles["admin"]
 		/user/new = anon
 		/user/create = anon
+		/user/forgot = anon
+		/user/reset = anon
 		/user/** = user
 		/logout = logout
    		</param-value>

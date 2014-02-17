@@ -1,5 +1,6 @@
 package vino.model;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -129,9 +130,14 @@ public class User extends Model {
 		return "/avatar/"+getUsername()+".jpg";
 	}		
 	
-	public void reset() {
-        set("reset_expiration", new DateTime().plusDays(1).toDate());
+	public void initReset() {
+        set("reset_expiration", new Timestamp(new DateTime().plusDays(1).toDate().getTime()));
 		set("reset_token", StringUtils.generatePseudoRandomToken());
+	}
+	
+	public void clearReset() {
+        set("reset_expiration", null);
+		set("reset_token", null);	
 	}
 	
 	public String toString() {

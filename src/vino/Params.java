@@ -20,6 +20,7 @@ import javax.servlet.http.Part;
 import org.apache.log4j.Logger;
 
 import vino.utils.StringUtils;
+import vino.utils.WebUtils;
 
 public class Params {
 
@@ -321,7 +322,7 @@ public class Params {
 					value += "," + temp;
 				}
 			}
-			map.put(key, value);
+			map.put(key, WebUtils.sanitize(value));
 		}
 	}
 	

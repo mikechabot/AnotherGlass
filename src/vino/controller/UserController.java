@@ -1,6 +1,7 @@
 package vino.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -18,6 +19,7 @@ import vino.model.User;
 import vino.model.UserAvatar;
 import vino.utils.EmailUtils;
 import vino.utils.ImageUtils;
+import vino.utils.WebUtils;
 
 @MultipartConfig(fileSizeThreshold=1024*1024, maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
 public class UserController extends Controller {
@@ -37,6 +39,9 @@ public class UserController extends Controller {
 		addAction("/create", new Create());
 		addAction("/avatar-upload", new AvatarUpload());
 		addAction("/avatar-source/*", new ModifyAvatarSource());
+		addAction("/change-password", new ChangePassword());
+		addAction("/forgot", new Forgot());
+		addAction("/reset", new Reset());
 	}
 
 	@Override
@@ -257,4 +262,153 @@ public class UserController extends Controller {
 			return "redirect:/user";
 		}
 	}
+	
+	public class ChangePassword extends Action {
+
+		@Override
+		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
+			Params params = new Params(request);
+
+			Subject currentUser = SecurityUtils.getSubject();
+			if (currentUser == null) {
+				return "error:403"; // this condition should never happen
+			}
+			
+			String username = (String) currentUser.getPrincipal();
+			
+			User user = User.findFirst("username = ?", username);
+			if (user == null) {
+				return "error:404"; // this condition should never happen
+			}
+			
+			if (params.isPost()) {
+				String password1 = params.getString("password_1");
+				String password2 = params.getString("password_2");
+
+				List<String> errors = new ArrayList<String>(0);
+
+	            if (password1 == null) {
+                    errors.add("Password is required");
+	            }
+	            else {
+	                    if (password1.length() < 4 || password1.length() > 32) errors.add("Password must be between 4 and 32 characters");
+	            }
+	                        
+	            if(password2 == null || !password1.equals(password2)) {
+	                    errors.add("Passwords do not match");
+	            }
+	            
+	            if (errors.isEmpty()) {
+	                user.setPassword(password1);
+	                user.save();
+	                
+	                log.debug("changed password for user "+user.getUsername());
+	                
+	        		EmailUtils.sendSimpleMessage(user.getEmail(), "Another Glass Password Updated", "Hi "+user.getUsername()+", This is friendly reminder that you just changed your password on Another Glass. If you didn't intend to do this, please contact us at support@anotherglass.net so we can look into this for you!");
+	                
+	        		request.getSession().setAttribute("flash", "Your password was successfully updated!");
+	        		
+					return "redirect:/user";
+	            }
+	            
+	            request.setAttribute("errors", errors);
+			}
+			
+			return basePath() + "/change-password.jsp";
+		}
+	}
+	
+	public class Forgot extends Action {
+
+		@Override
+		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
+			Params params = new Params(request);
+			
+			String email = params.getString("email");
+
+			List<String> errors = new ArrayList<String>(0);
+
+			if (params.isPost()) {
+				User user = User.findFirst("username = ?", email);
+				
+				if (user == null) {
+					user = User.findFirst("email = ?", email);
+					if (user == null) {
+						errors.add("Sorry, we couldn't find a user with that username or email address");
+					}
+				}
+				
+				if (user != null) {
+					user.initReset();
+					user.save();
+					
+					String resetUrl = WebUtils.baseUrl(request) + "/user/reset?token="+user.getResetToken();
+
+	        		EmailUtils.sendSimpleMessage(user.getEmail(), "Another Glass Password Reset", "Hi "+user.getUsername()+", Please continue with resetting your password by clicking this link: "+resetUrl+"\n\nIf you didn't intend to reset your password, please ignore this message.");
+
+					request.getSession().setAttribute("flash", "Expect an email shortly to initiate a password reset");			
+					return "redirect:/login.jsp";
+				}
+			}
+
+			request.setAttribute("email", email);
+            request.setAttribute("errors", errors);
+			
+			return basePath() + "/forgot.jsp";
+		}
+	}
+	
+	public class Reset extends Action {
+
+		@Override
+		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
+			Params params = new Params(request);
+			
+			String token = params.getString("token");
+
+			List<String> errors = new ArrayList<String>(0);
+
+			User user = User.findFirst("reset_token = ?", token);
+			if (user != null && user.getResetExpiration().after(new Date())) {
+				String password1 = params.getString("password_1");
+				String password2 = params.getString("password_2");
+
+	            if (password1 == null) {
+                    errors.add("Password is required");
+	            }
+	            else {
+	                    if (password1.length() < 4 || password1.length() > 32) errors.add("Password must be between 4 and 32 characters");
+	            }
+	                        
+	            if(password2 == null || !password1.equals(password2)) {
+	                    errors.add("Passwords do not match");
+	            }
+	            
+	            if (errors.isEmpty()) {
+	                user.setPassword(password1);
+	                user.clearReset();
+	                user.save();
+	                
+	                log.debug("changed password for user "+user.getUsername());
+	                
+	        		EmailUtils.sendSimpleMessage(user.getEmail(), "Another Glass Password Updated", "Hi "+user.getUsername()+", This is friendly reminder that you just changed your password on Another Glass. If you didn't intend to do this, please contact us at support@anotherglass.net so we can look into this for you!");
+	                
+	        		request.getSession().setAttribute("flash", "Your password was successfully updated!");
+	        		
+					return "redirect:/user";
+	            }					
+			}
+			else {
+        		request.getSession().setAttribute("flash", "This reset link has expired. Please initiate a new one or contact support@anotherglass.net if you are having trouble resetting your password.");
+				
+				return "redirect:/login.jsp";
+			}
+			
+			request.setAttribute("token", token);
+            request.setAttribute("errors", errors);
+			
+			return basePath() + "/reset.jsp";
+		}
+	}	
+	
 }

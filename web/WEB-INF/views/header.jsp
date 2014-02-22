@@ -1,4 +1,12 @@
-
+<%@ page language="java"%>
+<%
+//TODO: maybe this should be a filter instead?
+String flash = "";
+if (session.getAttribute("flash") != null) {
+	flash = (String) session.getAttribute("flash");
+	session.setAttribute("flash", "");
+}
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,4 +38,5 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
     <![endif]-->
   </head>
-  <body> 
+  <body>
+  <div class="flash"><%= flash %></div>

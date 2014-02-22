@@ -3,14 +3,13 @@ package vino.populator;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.http.HttpException;
 import org.apache.log4j.Logger;
 
 import vino.Configuration;
-import vino.http.HttpException;
-import vino.http.HttpHelper;
+import vino.utils.HttpUtils;
 
 import com.google.gson.Gson;
-
 
 public class ApiService {	
 	
@@ -19,8 +18,6 @@ public class ApiService {
 	public static List<Wine> fetch() {
 		
 		Configuration config = Configuration.getInstance();
-				
-		HttpHelper httpHelper = new HttpHelper();
 		
 		List<Wine> wines = new ArrayList<Wine>(0);
 		List<Wine> temp;
@@ -34,7 +31,7 @@ public class ApiService {
 		do {
 			try {
 				String url = config.getWineApi().getUrl() + "catalog?size=" + config.getWineApi().getFetchSize() + "&apiKey=" + config.getWineApi().getKey() + "&offset=" + fetchOffset;
-				json = httpHelper.get(url);
+				json = HttpUtils.get(url);
 				log.trace("json="+json);
 			} catch (HttpException e) {
 				log.error("Error accessing server for some reason", e);				

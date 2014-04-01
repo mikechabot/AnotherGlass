@@ -34,8 +34,9 @@ public class Configuration {
     private String adminPassword;
     private String adminEmail;
     private List<DatabaseConfiguration> database;
-    private WineApiConfiguration wineApi;
     private List<EmailServerConfiguration> emailServer;
+    private WineApiConfiguration wineApi;
+    private FacebookApiConfiguration facebookApi;
         
     public static Configuration getInstance() {
         if (configuration == null) {        	
@@ -82,6 +83,10 @@ public class Configuration {
 		return emailServer;
 	}
 
+	public FacebookApiConfiguration getFacebookApi() {
+		return facebookApi;
+	}
+	
 	public WineApiConfiguration getWineApi() {
 		return wineApi;
 	}
@@ -320,5 +325,48 @@ public class Configuration {
 		}
     	
     }
+    
+    @XmlRootElement
+    @XmlAccessorType(XmlAccessType.FIELD)  
+    public static class FacebookApiConfiguration {
+    	
+    	private String url;
+    	private String key;
+    	private String secret;
+    	
+    	@SuppressWarnings("unused")
+		private FacebookApiConfiguration() {}
+    	
+    	public FacebookApiConfiguration(String url, String key, String secret) {
+    		this.url = url;
+    		this.key = key;
+    		this.secret = secret;
+    	}
+
+		public String getUrl() {
+			return url;
+		}
+
+		public void setUrl(String url) {
+			this.url = url;
+		}
+
+		public String getKey() {
+			return key;
+		}
+
+		public void setKey(String key) {
+			this.key = key;
+		}
+
+		public String getSecret() {
+			return secret;
+		}
+
+		public void setSecret(String secret) {
+			this.secret = secret;
+		}    	
+    	
+    }    
     
 }

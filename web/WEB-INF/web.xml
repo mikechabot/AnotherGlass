@@ -35,7 +35,11 @@
 		vinoRealm = vino.shiro.VinoRealm
 		vinoRealm.credentialsMatcher = $vinoMatcher
 
-		securityManager.realms = $vinoRealm
+		fbMatcher = vino.shiro.FacebookCredentialsMatcher
+		fbRealm = vino.shiro.FacebookRealm
+		fbRealm.credentialsMatcher = $fbMatcher 
+		
+		securityManager.realms = $vinoRealm, $fbRealm
 			
 		[urls]
 		# authc = super secure (no remember me sessions), user = less secure (remember me sessions allowed) 
@@ -92,6 +96,14 @@
 		<servlet-name>AdminController</servlet-name>
 		<url-pattern>/admin/*</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>FacebookController</servlet-name>
+		<servlet-class>vino.controller.FacebookController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FacebookController</servlet-name>
+		<url-pattern>/facebook/*</url-pattern>
+	</servlet-mapping>	
 	<servlet>
 		<servlet-name>UserController</servlet-name>
 		<servlet-class>vino.controller.UserController</servlet-class>

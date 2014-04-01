@@ -34,6 +34,8 @@
 				nillable="false" minOccurs="3" maxOccurs="3" />
 			<xs:element name="emailServer" type="emailServerConfiguration"
 				nillable="false" minOccurs="3" maxOccurs="3" />
+			<xs:element name="facebookApi" type="facebookApiConfiguration"
+				minOccurs="1" maxOccurs="1" />				
 			<xs:element name="wineApi" type="wineApiConfiguration"
 				minOccurs="1" maxOccurs="1" />
 		</xs:sequence>
@@ -85,6 +87,17 @@
 		</xs:sequence>
 	</xs:complexType>
 
+	<xs:complexType name="facebookApiConfiguration">
+		<xs:sequence>
+			<xs:element name="url" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="key" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="secret" type="xs:string" minOccurs="1"
+				maxOccurs="1" />
+		</xs:sequence>
+	</xs:complexType>
+	
 	<xs:complexType name="wineApiConfiguration">
 		<xs:sequence>
 			<xs:element name="url" type="xs:string" minOccurs="1"

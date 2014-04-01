@@ -4,13 +4,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -18,12 +15,20 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
 import vino.database.Database;
+import vino.facebook.FacebookDetails;
 import vino.model.User;
 
-public class VinoRealm extends AuthorizingRealm {
+public class FacebookRealm extends AuthorizingRealm {
 
-	private static final Logger log = Logger.getLogger(VinoRealm.class);
-		
+	private static final Logger log = Logger.getLogger(FacebookRealm.class);
+
+	public boolean supports(AuthenticationToken authToken) {
+		if (authToken instanceof FacebookToken) {
+			return true;
+		}
+		return false;
+	}
+	
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 		if (principals == null) {
@@ -45,21 +50,13 @@ public class VinoRealm extends AuthorizingRealm {
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-		UsernamePasswordToken upToken = (UsernamePasswordToken) token;
-		String username = upToken.getUsername();
-		
-		if (username == null) {
-			log.info("Null usernames are not allowed by this realm.");
-			throw new AccountException("Null usernames are not allowed by this realm.");
-		}
-		
+		FacebookToken facebookToken = (FacebookToken) token;		
+		FacebookDetails facebookDetails = facebookToken.getFacebookDetails();
+		String username = "!FB"+facebookDetails.getId();
+				
 		log.info("Request to authorize user ["+username+"]");
 		log.info("Credentials Matcher = "+getCredentialsMatcher().getClass());
 		
-		if("admin".equalsIgnoreCase(username)) {
-			return new SimpleAuthenticationInfo(username, "admin", getName());
-		}
-
 		User user = null;
 		Database db = null;
 		
@@ -67,7 +64,8 @@ public class VinoRealm extends AuthorizingRealm {
 			db = new Database();
 			db.open();
 			
-			user = User.findFirst("username = ?", username);		
+			user = User.findFirst("username = ?", username);
+			//TODO setFacebookDetails()
 		}
 		catch (Exception e) {
 			log.error("There was a SQL error while authorizing user [" + username + "]", e);
@@ -84,7 +82,7 @@ public class VinoRealm extends AuthorizingRealm {
             throw new UnknownAccountException("No account found for user [" + username + "]");
         }
         
-        return new VinoAuthenticationInfo(user, getName());
+        return new FacebookAuthenticationInfo(user, getName());
 	}
 	
 }

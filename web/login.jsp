@@ -22,6 +22,7 @@
 		<button type="submit" class="btn btn-default">Login</button>
 		<button type="button" class="btn btn-default" onclick="window.location='/user/new';">Sign up</button>
 		<button type="button" class="btn btn-default" onclick="window.location='/user/forgot';">Forgot password?</button>
+		<button type="button" class="btn btn-default" onclick="window.location='/facebook/login';">Login with Facebook</button>
 	</form>
 	<c:if test="${not empty loginFailure}">
  	<p class="text-danger error">The credentials you entered were incorrect.</p>

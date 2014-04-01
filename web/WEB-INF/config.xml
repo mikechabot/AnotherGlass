@@ -44,7 +44,12 @@
 		<address>smtp.vino</address>
 		<port>25</port>
 		<ssl>false</ssl>
-	</emailServer>		
+	</emailServer>
+	<facebookApi>
+		<url>https://graph.facebook.com/me</url>
+		<key>215985131929804</key>
+		<secret>02e72bd76778e992d3d9b62599fabd88</secret>
+	</facebookApi>	
 	<wineApi>
 		<url>http://services.wine.com/api/beta2/service.svc/json/</url>
 		<key>b77c34d4cc093ccc98977db8e10c7e85</key>

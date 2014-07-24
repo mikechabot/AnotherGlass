@@ -1,7 +1,7 @@
 package vino.model;
 
 public enum AvatarSource {
-	GRAVATAR("gravatar"), LOCAL("local");
+	FACEBOOK("facebook"), GRAVATAR("gravatar"), LOCAL("local");
 	
 	private String mnemonic;
 	

@@ -11,6 +11,12 @@
 			<img src="${user.avatarUrl}" width="220" height="220" alt="avatar image">
 			<div class="row">
 				<h1>Change Your Avatar</h1>
+				<c:if test="${not empty user.userFacebook}">
+				<div class="row">
+					<div class="col-sm-4"><img src="${user.facebookAvatarUrl}" width="60" height="60" alt="Facebook"></div>
+					<div class="col-sm-8"><a href="/user/avatar-source/facebook">Facebook</a></div>
+				</div>
+				</c:if>
 				<div class="row">
 					<div class="col-sm-4"><img src="${user.gravatarAvatarUrl}" width="60" height="60" alt="Gravatar"></div>
 					<div class="col-sm-8"><a href="/user/avatar-source/gravatar">Gravatar</a></div>

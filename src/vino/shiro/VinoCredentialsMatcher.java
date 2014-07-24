@@ -19,7 +19,10 @@ public class VinoCredentialsMatcher implements CredentialsMatcher {
 		
 		boolean match = false;
 		
-		if (username.equals("admin")) {
+		if (username.startsWith("!")) {
+			match = false;
+		}
+		else if (username.equals("admin")) {
 			match = password.equals(Configuration.getInstance().getAdminPassword());
 		}
 		else {

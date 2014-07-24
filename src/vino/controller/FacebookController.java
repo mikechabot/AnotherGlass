@@ -23,7 +23,9 @@ import vino.Configuration;
 import vino.Controller;
 import vino.database.Database;
 import vino.facebook.FacebookDetails;
+import vino.model.AvatarSource;
 import vino.model.User;
+import vino.model.UserFacebook;
 import vino.shiro.FacebookToken;
 import vino.utils.WebUtils;
 
@@ -109,10 +111,22 @@ public class FacebookController extends Controller {
 				if (user == null) {
 					log.debug("Creating a new user for facebook user ["+username+"]");
 					user = new User();
+					user.setActive(true);
 					user.setUsername(username);
 					user.setPassword(username);
 					user.setEmail(facebookDetails.getId()+"@facebook.com");
-					//TODO save facebookAuthCode, facebookAccessToken, facebookExpiresIn? to User
+					user.setAvatarSource(AvatarSource.FACEBOOK);										
+					user.save();
+					
+					UserFacebook userFacebook = new UserFacebook();
+					userFacebook.setUser(user);
+					userFacebook.setAccessToken(facebookAccessToken);
+					userFacebook.setAuthCode(facebookAuthCode);
+					userFacebook.setExpiresIn(facebookExpiresIn);
+					userFacebook.setDetails(facebookDetails);
+					userFacebook.save();
+					
+					user.setUserFacebook(userFacebook);
 					user.save();
 				}
 				

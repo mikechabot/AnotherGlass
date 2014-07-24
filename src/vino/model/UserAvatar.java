@@ -6,6 +6,8 @@ import org.javalite.activejdbc.Model;
 
 public class UserAvatar extends Model {
 
+	private transient User user;
+	
 	public Date getCreated() {
 		return getDate("created_at");
 	}
@@ -39,11 +41,13 @@ public class UserAvatar extends Model {
 	}
 	
 	public User getUser() {
-		return parent(User.class);
+		if (user == null) this.user = parent(User.class);
+		return user;
 	}
 	
-	public void setUser(User user) {
+	public void setUser(User user) {		
 		if (user != null) {
+			this.user = user;
 			set("user_id", user.getId());
 		}
 	}
@@ -54,7 +58,7 @@ public class UserAvatar extends Model {
 		sb.append("id=").append(getId()).append(",");
 		sb.append("created=").append(getCreated()).append(",");
 		sb.append("updated=").append(getUpdated()).append(",");
-		sb.append("user=").append(getUser()).append(",");
+		sb.append("user=").append(get("user_id")).append(",");
 		sb.append("contentType=").append(getContentType()).append(",");
 		sb.append("data=").append("...");
 		sb.append("]");

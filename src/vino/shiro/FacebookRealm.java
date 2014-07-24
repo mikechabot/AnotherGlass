@@ -17,6 +17,7 @@ import org.apache.shiro.subject.PrincipalCollection;
 import vino.database.Database;
 import vino.facebook.FacebookDetails;
 import vino.model.User;
+import vino.model.UserFacebook;
 
 public class FacebookRealm extends AuthorizingRealm {
 
@@ -65,7 +66,21 @@ public class FacebookRealm extends AuthorizingRealm {
 			db.open();
 			
 			user = User.findFirst("username = ?", username);
-			//TODO setFacebookDetails()
+			
+			UserFacebook userFacebook = user.getUserFacebook();
+			if (userFacebook == null) {
+				userFacebook = new UserFacebook();
+			}
+			
+			userFacebook.setUser(user);
+			userFacebook.setAuthCode(facebookToken.getFacebookAuthCode());
+			userFacebook.setAccessToken(facebookToken.getFacebookAccessToken());
+			userFacebook.setExpiresIn(facebookToken.getFacebookExpiresIn());
+			userFacebook.setDetails(facebookDetails);
+			userFacebook.save();
+			
+			user.setUserFacebook(userFacebook);
+			user.save();
 		}
 		catch (Exception e) {
 			log.error("There was a SQL error while authorizing user [" + username + "]", e);

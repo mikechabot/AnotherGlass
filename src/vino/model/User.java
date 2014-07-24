@@ -10,7 +10,9 @@ import org.joda.time.DateTime;
 import vino.utils.StringUtils;
 
 public class User extends Model {
-		
+	
+	private transient UserFacebook userFacebook;
+	
 	public Date getCreated() {
 		return getDate("created_at");
 	}
@@ -117,9 +119,16 @@ public class User extends Model {
 		if (AvatarSource.GRAVATAR == avatarSource) {
 			return getGravatarAvatarUrl();
 		}
+		else if (AvatarSource.FACEBOOK == avatarSource) {
+			return getFacebookAvatarUrl();
+		}
 		else {
 			return getLocalAvatarUrl();
 		}
+	}
+	
+	public String getFacebookAvatarUrl() {
+		return "http://graph.facebook.com/"+getUsername().substring(3)+"/picture?type=large";
 	}
 	
 	public String getGravatarAvatarUrl() {
@@ -129,6 +138,22 @@ public class User extends Model {
 	public String getLocalAvatarUrl() {
 		return "/avatar/"+getUsername()+".jpg";
 	}		
+	
+	public void setUserFacebook(UserFacebook userFacebook) {
+		if (userFacebook != null) {
+			this.userFacebook = userFacebook;
+			set("userfacebooks_id", userFacebook.getId());
+		}
+	}
+	
+	public UserFacebook getUserFacebook() {
+		if (userFacebook != null) return userFacebook;
+		Long id = getLong("userfacebooks_id");
+		if (id != null) {
+			return UserFacebook.findById(id);
+		}
+		return null;
+	}
 	
 	public void initReset() {
         set("reset_expiration", new Timestamp(new DateTime().plusDays(1).toDate().getTime()));

@@ -45,6 +45,22 @@ public class User extends Model {
 		set("username", username);
 	}
 	
+	public String getName() {
+		return getString("name");
+	}
+	
+	public void setName(String name) {
+		set("name", name);
+	}
+	
+	public String getDisplay() {
+		String display = getName();
+		if (display == null) {
+			display = getUsername();
+		}
+		return display;
+	}
+	
 	public String getEmail() {
 		return getString("email");
 	}

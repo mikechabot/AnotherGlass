@@ -113,7 +113,8 @@ public class FacebookController extends Controller {
 					user = new User();
 					user.setActive(true);
 					user.setUsername(username);
-					user.setPassword(username);
+					user.setName(facebookDetails.getName());
+					user.setPassword(username);					
 					user.setEmail(facebookDetails.getId()+"@facebook.com");
 					user.setAvatarSource(AvatarSource.FACEBOOK);										
 					user.save();

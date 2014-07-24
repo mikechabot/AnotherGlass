@@ -79,6 +79,7 @@ public class FacebookRealm extends AuthorizingRealm {
 			userFacebook.setDetails(facebookDetails);
 			userFacebook.save();
 			
+			user.setName(facebookDetails.getName());
 			user.setUserFacebook(userFacebook);
 			user.save();
 		}

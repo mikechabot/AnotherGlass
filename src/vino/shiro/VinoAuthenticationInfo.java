@@ -16,8 +16,9 @@ public class VinoAuthenticationInfo implements AuthenticationInfo {
 	private PrincipalCollection principalCollection;
  
 	public VinoAuthenticationInfo(User user, String realmName) {
-		Collection<String> principals = new ArrayList<String>();
+		Collection<Object> principals = new ArrayList<Object>();
 		principals.add(user.getUsername());
+		principals.add(user);
 		this.principalCollection = new SimplePrincipalCollection(principals, realmName);
 	}
  

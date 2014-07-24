@@ -12,7 +12,7 @@
 			<div class="row">
 				<div class="col-xs-12 col-md-12 text-right">
 					<br>			
-					<p class="text-info"><shiro:user>Welcome back, <shiro:principal/> <a href="/logout" class="btn btn-default btn-xs">Logout</a></</shiro:user></p>					
+					<p class="text-info"><shiro:user>Welcome back, <shiro:principal type="vino.model.User" property="display"/> <a href="/logout" class="btn btn-default btn-xs">Logout</a></</shiro:user></p>					
 				</div>
 			</div>
 			<div class="row">

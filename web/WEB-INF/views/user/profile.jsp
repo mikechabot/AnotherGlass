@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div class="col-md-8">
-			<h2>${user.username}</h2>
+			<h2>${user.display}</h2>
 			<hr/>
 			<div class="row">
 				<div class="col-xs-2">Member Since</div>

@@ -28,7 +28,20 @@
 				<div class="col-xs-10"><i><c:out value="${wine.type}">Unknown</c:out></i></div>
 			</div>			
 		</div>
-		<div class="col-md-4 sidebar"></div>
+		<div class="col-md-4 sidebar">
+			<h3>Fans</h3>
+			<c:forEach var="like" items="${likes}">
+			<p><a href="/user/${like.user.id}"><img src="${like.user.avatarUrl}" width="60" height="60" alt="avatar image"></a>&nbsp;<a href="/user/${like.user.id}">${like.user.display}</a></p>
+			</c:forEach>
+			<c:choose>
+			<c:when test="${alreadyLiked}">
+			<button onclick="window.location='/like/wine/${wine.id}'">I Don't Like This Wine Anymore!</button>
+			</c:when>
+			<c:otherwise>
+			<button onclick="window.location='/like/wine/${wine.id}'">I Like This Wine!</button>
+			</c:otherwise>
+			</c:choose>
+		</div>
 	</div>
 </div>
 <c:import url="/WEB-INF/views/footer.jsp"/>

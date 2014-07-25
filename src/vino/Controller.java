@@ -198,4 +198,19 @@ public abstract class Controller extends HttpServlet {
 		public abstract String execute(HttpServletRequest request, HttpServletResponse response) throws Exception;		
 	}
 	
+	public class NotFoundAction extends Action {
+
+		public boolean supportsGet() { 
+			return true;
+		}
+		
+		public boolean supportsPost() { 
+			return true;
+		}
+
+		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
+			return "error:404";
+		}
+	}	
+	
 }

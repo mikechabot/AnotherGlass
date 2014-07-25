@@ -43,6 +43,20 @@
 				<div class="col-xs-10"><i>${user.email}</i></div>
 			</div>			
 		</div>
+		<div class="col-md-8">
+			<h2>Wines I Like</h2>
+			<hr/>
+			<c:choose>
+			<c:when test="${not empty likes}">
+			<ul>
+			<c:forEach var="like" items="${likes}">
+				<li><a href="/wine/${like.wine.id}">${like.wine.name}</a></li>
+			</c:forEach>
+			</ul>
+			</c:when>
+			<c:otherwise>You haven't liked any wines yet! Explore the site and find some!</c:otherwise>
+			</c:choose>
+		</div>		
 	</div>
 </div>
 <c:import url="/WEB-INF/views/footer.jsp"/>

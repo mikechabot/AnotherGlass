@@ -1,0 +1,1 @@
+create table activities (id serial unique not null, created_at timestamp not null, updated_at timestamp not null, user_id bigint not null, type varchar(256) not null, wine_id bigint, vineyard_id bigint, active boolean not null default true, constraint activities_pkey primary key (id), constraint activities_id_key unique (id));

@@ -1,12 +1,18 @@
 package vino.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.apache.shiro.SecurityUtils;
 
 import vino.Controller;
+import vino.model.Activity;
+import vino.model.User;
 import vino.model.Wine;
+import vino.utils.ShiroUtils;
 import vino.utils.StringUtils;
 
 public class WineController extends Controller {
@@ -51,8 +57,23 @@ public class WineController extends Controller {
 				return "error:404";
 			}
 			
-			request.setAttribute("wine", wine);			
+			request.setAttribute("wine", wine);
+			
+			List<Activity> likes = Activity.where("type = 'like' and wine_id = ? and active = true", id).orderBy("created_at asc").include(User.class).limit(25);
+			request.setAttribute("likes", likes);
 
+			boolean alreadyLiked = false;
+			
+			User user = ShiroUtils.getLoggedInUser();
+			if (user != null) {
+				Activity activity = Activity.findFirst("type = 'like' and wine_id = ? and user_id = ?", id, user.getId());
+				if (activity != null) {
+					alreadyLiked = activity.isActive();
+				}
+			}
+			
+			request.setAttribute("alreadyLiked", alreadyLiked);
+			
 			return basePath() + "/profile.jsp";
 		}		
 	}

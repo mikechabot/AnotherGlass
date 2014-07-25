@@ -20,6 +20,7 @@
 		<url-pattern>/vineyard/*</url-pattern>
 		<url-pattern>/region/*</url-pattern>
 		<url-pattern>/appellation/*</url-pattern>
+		<url-pattern>/like/*</url-pattern>
 	</filter-mapping>
 	<filter>
 		<filter-name>ShiroFilter</filter-name>
@@ -47,13 +48,11 @@
 		# authc = super secure (no remember me sessions), user = less secure (remember me sessions allowed) 
 		/login.jsp = authc
 		/avatar/** = user
+		/like/** = user
 		/search/** = anon
 		/admin/** = authc, roles["admin"]
-		/user/new = anon
-		/user/create = anon
-		/user/forgot = anon
-		/user/reset = anon
-		/user/** = user
+		/user/profile = user
+		/user/** = anon
 		/logout = logout
    		</param-value>
 		</init-param>
@@ -145,5 +144,13 @@
 	<servlet-mapping>
 		<servlet-name>AppellationController</servlet-name>
 		<url-pattern>/appellation/*</url-pattern>
+	</servlet-mapping>	
+	<servlet>
+		<servlet-name>LikeController</servlet-name>
+		<servlet-class>vino.controller.LikeController</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LikeController</servlet-name>
+		<url-pattern>/like/*</url-pattern>
 	</servlet-mapping>	
 </web-app>

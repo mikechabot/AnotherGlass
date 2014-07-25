@@ -14,11 +14,15 @@ import org.apache.shiro.subject.Subject;
 
 import vino.Controller;
 import vino.Params;
+import vino.model.Activity;
 import vino.model.AvatarSource;
 import vino.model.User;
 import vino.model.UserAvatar;
+import vino.model.Wine;
 import vino.utils.EmailUtils;
 import vino.utils.ImageUtils;
+import vino.utils.ShiroUtils;
+import vino.utils.StringUtils;
 import vino.utils.WebUtils;
 
 @MultipartConfig(fileSizeThreshold=1024*1024, maxFileSize=1024*1024*5, maxRequestSize=1024*1024*5*5)
@@ -33,8 +37,8 @@ public class UserController extends Controller {
 	
 	@Override
 	protected void initActions() {
-		addAction("/", new Profile());
 		addAction("/*", new View());
+		addAction("/profile", new Profile());
 		addAction("/new", new New());
 		addAction("/create", new Create());
 		addAction("/avatar-upload", new AvatarUpload());
@@ -46,39 +50,45 @@ public class UserController extends Controller {
 
 	@Override
 	protected Action defaultAction() {
-		return new Profile();
+		return new View();
 	}
 	
 	public class Profile extends Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
-			Subject currentUser = SecurityUtils.getSubject();
-			if (currentUser == null) {
-				return "error:403"; // this condition should never happen
-			}
-			
-			String username = (String) currentUser.getPrincipal();
-			
-			User user = User.findFirst("username = ?", username);
+			User user = ShiroUtils.getLoggedInUser();
 			if (user == null) {
-				return "error:404"; // this condition should never happen
+				return "error:403"; // this condition should never happen
 			}
 			
 			request.setAttribute("user", user);
 			
-			return basePath() + "/profile.jsp";
+			List<Activity> likes = Activity.where("type = 'like' and user_id = ? and active = true", user.getId()).orderBy("created_at asc").include(Wine.class).limit(25);
+			request.setAttribute("likes", likes);	
+			
+			return basePath() + "/personal-profile.jsp";
 		}		
 	}
 	
 	public class View extends Action {
 		public String execute(HttpServletRequest request, HttpServletResponse response) throws Exception {			
-			String username = getRouteParameter(1);
+			long id = StringUtils.parseLong(getRouteParameter(1));
 			
-			User user = User.findFirst("username = ?", username);
-			if (user == null) {
+			User user = ShiroUtils.getLoggedInUser();
+			if (user != null && id == (int) user.getId()) {
+				return "redirect:/user/profile";
+			}
+			
+			User profile = User.findById(id);
+			if (profile == null) {
 				return "error:404";
 			}
 			
-			return "text:Show users profile with name = "+username+", "+user;
+			request.setAttribute("user", profile);
+			
+			List<Activity> likes = Activity.where("type = 'like' and user_id = ? and active = true", id).orderBy("created_at asc").include(Wine.class).limit(25);
+			request.setAttribute("likes", likes);	
+			
+			return basePath() + "/public-profile.jsp";
 		}		
 	}
 	

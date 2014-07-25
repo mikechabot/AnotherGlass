@@ -34,10 +34,12 @@
 		vinoMatcher = vino.shiro.VinoCredentialsMatcher
 		vinoRealm = vino.shiro.VinoRealm
 		vinoRealm.credentialsMatcher = $vinoMatcher
+		vinoRealm.authorizationCachingEnabled = false
 
 		fbMatcher = vino.shiro.FacebookCredentialsMatcher
 		fbRealm = vino.shiro.FacebookRealm
-		fbRealm.credentialsMatcher = $fbMatcher 
+		fbRealm.credentialsMatcher = $fbMatcher
+		fbRealm.authorizationCachingEnabled = false
 		
 		securityManager.realms = $vinoRealm, $fbRealm
 			
